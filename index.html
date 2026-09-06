@@ -389,6 +389,12 @@
   /* 管理员模式：所有卡片都可编辑 */
   body.admin-on .blessing, body.admin-on .detail-card{border-left-color:#2c7a3d}
   body.admin-on #adminTrigger{color:inherit;opacity:1}
+  /* 管理员长按拖拽排序 */
+  body.admin-on .blessing, body.admin-on .detail-card,
+  body.admin-on .spirit-card, body.admin-on .quote-card, body.admin-on .t-card{cursor:grab}
+  .drag-ghost{position:fixed!important;pointer-events:none!important;z-index:99999!important;opacity:.85!important;transform:scale(1.05)!important;box-shadow:0 8px 24px rgba(0,0,0,.25)!important;transition:none!important}
+  .drag-source{opacity:.25!important}
+  .drag-over{outline:3px dashed #b8352e!important;outline-offset:2px}
 
   /* 管理员密码弹窗 */
   #adminModal{
@@ -718,6 +724,7 @@
     section{padding:64px 5vw}
     .stats-sec{padding:0 5vw 60px}
     .letter{padding:40px 28px}
+    .letter::before{font-size:3.5rem;top:10px;left:18px}
     .spirit-grid{grid-template-columns:repeat(2,1fr)}
     .wall-form{padding:28px 22px}
     .wall-form .row{grid-template-columns:1fr}
@@ -740,6 +747,7 @@
     .hero .sub{font-size:1rem}
     .sec-head h2{font-size:1.9rem}
     .letter{padding:32px 22px}
+    .letter::before{font-size:2.5rem;top:6px;left:12px}
     .letter p{font-size:.98rem;text-indent:2em}
     .wall-form{padding:22px 16px}
     .btn{padding:12px 26px;font-size:.95rem}
@@ -1316,14 +1324,23 @@ function renderSpirit(){
   var c = getContent();
   var grid = document.getElementById('spiritGrid');
   if(!grid) return;
-  grid.innerHTML = c.spirit.map(function(s){
-    return '<div class="spirit-card reveal">'
+  grid.innerHTML = c.spirit.map(function(s,i){
+    return '<div class="spirit-card reveal" data-idx="'+i+'">'
       + '<div class="num cal">'+esc(s.num)+'</div>'
       + '<div class="s-words cal">'+esc(s.words).replace(/\n/g,'<br>')+'</div>'
       + '<div class="s-dim"><span>'+esc(s.dim)+'</span></div>'
       + '<p class="s-desc">'+esc(s.desc)+'</p>'
       + '</div>';
   }).join('');
+  if(window.isAdmin && window.initDragSort){
+    window.initDragSort(grid, function(from, to){
+      var item = c.spirit.splice(from,1)[0];
+      c.spirit.splice(to,0,item);
+      saveContent(c);
+      renderSpirit();
+      saveContentToCloud();
+    });
+  }
 }
 
 /* 渲染师恩名句 */
@@ -1331,13 +1348,22 @@ function renderQuotes(){
   var c = getContent();
   var grid = document.getElementById('quoteGrid');
   if(!grid) return;
-  grid.innerHTML = c.quotes.map(function(q){
-    return '<div class="quote-card reveal">'
+  grid.innerHTML = c.quotes.map(function(q,i){
+    return '<div class="quote-card reveal" data-idx="'+i+'">'
       + '<div class="icon">'+esc(q.icon)+'</div>'
       + '<div class="words cal">'+esc(q.words).replace(/\n/g,'<br>')+'</div>'
       + '<div class="from">—— '+esc(q.from)+'</div>'
       + '</div>';
   }).join('');
+  if(window.isAdmin && window.initDragSort){
+    window.initDragSort(grid, function(from, to){
+      var item = c.quotes.splice(from,1)[0];
+      c.quotes.splice(to,0,item);
+      saveContent(c);
+      renderQuotes();
+      saveContentToCloud();
+    });
+  }
 }
 
 /* 初始渲染（先用本地内容，再从云端拉取覆盖） */
@@ -1376,8 +1402,8 @@ function renderTeachers(){
   var grid = document.getElementById('teacherGrid');
   if(!grid) return;
   var teachers = getTeachers();
-  grid.innerHTML = teachers.map(function(t){
-    return '<div class="t-card reveal" data-name="' + esc(t.name) + '" data-subject="' + esc(t.subject) + '" data-title="' + esc(t.title) + '" data-intro="' + esc(t.intro) + '">'
+  grid.innerHTML = teachers.map(function(t,i){
+    return '<div class="t-card reveal" data-idx="'+i+'" data-name="' + esc(t.name) + '" data-subject="' + esc(t.subject) + '" data-title="' + esc(t.title) + '" data-intro="' + esc(t.intro) + '">'
       + '<div class="ph">'
       +   '<img alt="' + esc(t.name) + '老师" data-prompt="' + esc(t.prompt) + '">'
       +   '<div class="ph-fb"><b class="cal">师</b><small>师者如光</small></div>'
@@ -1394,6 +1420,19 @@ function renderTeachers(){
     smartImgLoad(img, imgUrl(img.dataset.prompt, 'portrait_4_3'));
   });
   grid.querySelectorAll('.t-card').forEach(bindTilt);
+  if(window.isAdmin && window.initDragSort){
+    window.initDragSort(grid, function(from, to){
+      var item = teachers.splice(from,1)[0];
+      teachers.splice(to,0,item);
+      saveTeachers(teachers);
+      renderTeachers();
+      /* 同步到云端 page_content */
+      var c = getContent();
+      c.teachers = teachers;
+      saveContent(c);
+      saveContentToCloud();
+    });
+  }
 }
 
 /* 获取教师数据（管理员修改 > 默认） */
@@ -1652,6 +1691,23 @@ renderTeachers();
         + '<div class="who">— '+escapeHtml(b.name)+'</div>'
         + '</div>';
     }).join('');
+    /* 管理员模式：启用长按拖拽排序 */
+    if(window.isAdmin && window.initDragSort){
+      window.initDragSort(grid, function(from, to){
+        var item = list.splice(from, 1)[0];
+        list.splice(to, 0, item);
+        /* 按新 list 顺序重建 cloud 和 local */
+        var cKeys = {}, lKeys = {};
+        cloud.forEach(function(b){ cKeys[keyOf(b)] = 1; });
+        local.forEach(function(b){ lKeys[keyOf(b)] = 1; });
+        cloud = list.filter(function(b){ return cKeys[keyOf(b)]; });
+        local = list.filter(function(b){ return lKeys[keyOf(b)]; });
+        write(CKEY, cloud);
+        write(KEY, local);
+        render();
+        saveCloud();
+      });
+    }
   }
 
   /* ---- 云端：拉取所有人的祝福 ---- */
@@ -1969,6 +2025,23 @@ console.log('[调试] 即将执行暖心细节IIFE');
         + '<div class="d-class">— '+escapeHtml(d.cls)+'</div>'
         + '</div>';
     }).join('') || '<p style="text-align:center;color:#a0857d;padding:30px 0">还没有暖心细节，快来分享第一个吧 💝</p>';
+    /* 管理员模式：启用长按拖拽排序 */
+    if(window.isAdmin && window.initDragSort){
+      window.initDragSort(grid, function(from, to){
+        var item = list.splice(from, 1)[0];
+        list.splice(to, 0, item);
+        /* 按新 list 顺序重建 cloud 和 local */
+        var cKeys = {}, lKeys = {};
+        cloud.forEach(function(d){ cKeys[keyOf(d)] = 1; });
+        local.forEach(function(d){ lKeys[keyOf(d)] = 1; });
+        cloud = list.filter(function(d){ return cKeys[keyOf(d)]; });
+        local = list.filter(function(d){ return lKeys[keyOf(d)]; });
+        write(CKEY, cloud);
+        write(LKEY, local);
+        render();
+        saveCloud();
+      });
+    }
   }
 
   /* 云端拉取 */
@@ -2103,6 +2176,88 @@ console.log('[调试] 即将执行暖心细节IIFE');
     });
   });
 })();
+
+/* ============================================================
+   管理员长按拖拽排序（祝福墙 / 暖心细节）
+   ============================================================ */
+window.initDragSort = function(gridEl, onReorder){
+  if(!gridEl || gridEl.__dragInit) return;
+  gridEl.__dragInit = true;
+  var pressTimer = null, drag = null;
+  function getXY(e){
+    var t = e.touches && e.touches[0] ? e.touches[0] : (e.changedTouches && e.changedTouches[0] ? e.changedTouches[0] : e);
+    return {x: t.clientX || 0, y: t.clientY || 0};
+  }
+  function cardAt(x, y){
+    var kids = gridEl.children;
+    for(var i=0;i<kids.length;i++){
+      if(kids[i].getAttribute('data-idx') == null) continue;
+      var r = kids[i].getBoundingClientRect();
+      if(x>=r.left && x<=r.right && y>=r.top && y<=r.bottom) return kids[i];
+    }
+    return null;
+  }
+  function startDrag(card, x, y){
+    var rect = card.getBoundingClientRect();
+    var ghost = card.cloneNode(true);
+    ghost.className += ' drag-ghost';
+    ghost.style.width = rect.width+'px';
+    ghost.style.left = x+'px';
+    ghost.style.top = y+'px';
+    document.body.appendChild(ghost);
+    card.classList.add('drag-source');
+    drag = {el:card, idx:parseInt(card.getAttribute('data-idx'),10), ghost:ghost};
+  }
+  function onDown(e){
+    if(!window.isAdmin) return;
+    var card = e.target.closest('[data-idx]');
+    if(!card) return;
+    if(e.target.closest('button,a,input,textarea,select,.edit,.del')) return;
+    var p = getXY(e);
+    var sx=p.x, sy=p.y, moved=false;
+    pressTimer = setTimeout(function(){
+      if(moved) return;
+      startDrag(card, p.x, p.y);
+      if(e.preventDefault) e.preventDefault();
+    }, 500);
+    function earlyMov(ee){
+      var pp = getXY(ee);
+      if(Math.abs(pp.x-sx)>8 || Math.abs(pp.y-sy)>8) moved = true;
+    }
+    document.addEventListener('mousemove', earlyMov, {once:true});
+    document.addEventListener('touchmove', earlyMov, {once:true, passive:true});
+  }
+  function onMove(e){
+    if(!drag) return;
+    var p = getXY(e);
+    drag.ghost.style.left = p.x+'px';
+    drag.ghost.style.top = p.y+'px';
+    gridEl.querySelectorAll('.drag-over').forEach(function(c){ c.classList.remove('drag-over'); });
+    var target = cardAt(p.x, p.y);
+    if(target && target !== drag.el) target.classList.add('drag-over');
+    if(e.preventDefault) e.preventDefault();
+  }
+  function onUp(e){
+    if(pressTimer){ clearTimeout(pressTimer); pressTimer = null; }
+    if(!drag) return;
+    var p = getXY(e);
+    var target = cardAt(p.x, p.y);
+    if(target && target !== drag.el){
+      var toIdx = parseInt(target.getAttribute('data-idx'), 10);
+      if(!isNaN(toIdx) && toIdx !== drag.idx) onReorder(drag.idx, toIdx);
+    }
+    drag.ghost.remove();
+    drag.el.classList.remove('drag-source');
+    gridEl.querySelectorAll('.drag-over').forEach(function(c){ c.classList.remove('drag-over'); });
+    drag = null;
+  }
+  gridEl.addEventListener('mousedown', onDown);
+  gridEl.addEventListener('touchstart', onDown, {passive:true});
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('touchmove', onMove, {passive:false});
+  document.addEventListener('mouseup', onUp);
+  document.addEventListener('touchend', onUp);
+};
 
 /* ============================================================
    管理员编辑面板：节日寄语 / 教育家精神 / 师恩名句 / 教师简介
