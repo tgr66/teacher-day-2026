@@ -908,7 +908,7 @@
       <input type="text" id="dTo" placeholder="写给哪位老师（如：班主任王老师）" maxlength="30" required>
     </div>
     <textarea id="dDetail" placeholder="写下老师让你暖心的一个细节……（例如：那天我没考好，老师放学后留我下来，一道题一道题地讲到我懂为止）" maxlength="300" required></textarea>
-    <small style="display:block;text-align:center;opacity:.55;font-size:.72rem;margin-top:6px">提交将记录加密的IP地址与属地（仅用于内容管理）</small>
+    <small style="display:block;text-align:center;opacity:.4;font-size:.7rem;margin-top:4px">提交即表示同意内容在页面公开展示</small>
     <div class="submit-row" style="margin-top:18px">
       <button type="submit">💝 记录暖心瞬间</button>
     </div>
@@ -932,7 +932,7 @@
       <input type="text" id="bTo" placeholder="送给哪位老师（如：班主任王老师）" maxlength="30">
     </div>
     <textarea id="bMsg" placeholder="写下你的祝福语……（例如：老师，谢谢您一直以来的鼓励，教师节快乐！）" maxlength="200" required></textarea>
-    <small style="display:block;text-align:center;opacity:.55;font-size:.72rem;margin-top:6px">提交将记录加密的IP地址与属地（仅用于内容管理）</small>
+    <small style="display:block;text-align:center;opacity:.4;font-size:.7rem;margin-top:4px">提交即表示同意内容在页面公开展示</small>
     <div class="submit-row" style="margin-top:18px">
       <button type="submit">💐 送上祝福</button>
     </div>
@@ -1851,6 +1851,38 @@ renderTeachers();
     if(window.showAdminEditButtons) window.showAdminEditButtons();
     closeAdminModal();
     alert('✅ 已进入管理员模式\n现在可以编辑页面各板块内容、祝福和暖心细节。');
+    /* 静默记录管理员登录（设备编号+加密IP信息 → 云端 admin_log.json） */
+    try{
+      window.getIpLoc(function(info){
+        window.encryptIp(info).then(function(ipEnc){
+          var entry = { t: Date.now(), authorId: MY_ID, ip: ipEnc || '' };
+          logAdminAccess(entry);
+        });
+      });
+    }catch(e){}
+  }
+  /* 管理员访问日志：追加到云端 Gist 的 admin_log.json */
+  function logAdminAccess(entry){
+    if(!window.CLOUD || !window.CLOUD.GIST_ID || !window.CLOUD.GITHUB_TOKEN) return;
+    var LOG_FILE = 'admin_log.json';
+    fetch('https://api.github.com/gists/'+window.CLOUD.GIST_ID, {
+      cache:'no-store', headers:{'Authorization':'token '+window.CLOUD.GITHUB_TOKEN}
+    })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(data){
+        var f = data && data.files && data.files[LOG_FILE];
+        var arr = [];
+        try{ arr = JSON.parse((f && f.content) || '[]'); }catch(e){}
+        if(!Array.isArray(arr)) arr = [];
+        arr.push(entry);
+        if(arr.length > 200) arr = arr.slice(-200); /* 只保留最近200条 */
+        return fetch('https://api.github.com/gists/'+window.CLOUD.GIST_ID, {
+          method:'PATCH',
+          headers:{'Authorization':'token '+window.CLOUD.GITHUB_TOKEN,'Content-Type':'application/json','Accept':'application/vnd.github+json'},
+          body: JSON.stringify({ files: (function(){ var o={}; o[LOG_FILE]={content:JSON.stringify(arr)}; return o; })() })
+        });
+      })
+      .catch(function(){});
   }
   function exitAdmin(){
     /* 退出前弹窗确认保存 */
@@ -2076,27 +2108,22 @@ console.log('[调试] 即将执行暖心细节IIFE');
    管理员编辑面板：节日寄语 / 教育家精神 / 师恩名句 / 教师简介
    ============================================================ */
 (function(){
-  /* ---- 编辑按钮 ---- */
+  /* ---- 管理员模式：点击内容区域直接进入编辑（去掉标题旁编辑按钮） ---- */
   window.showAdminEditButtons = function(){
-    addEditBtn('message','节日寄语');
-    addEditBtn('spirit','教育家精神');
-    addEditBtn('quotes','师恩名句');
-    addEditBtn('teachers','教师简介');
+    var map = {message:'message', spirit:'spirit', quotes:'quotes', teachers:'teachers'};
+    Object.keys(map).forEach(function(id){
+      var sec = document.getElementById(id);
+      if(!sec) return;
+      sec.addEventListener('click', function(e){
+        if(!window.isAdmin) return;
+        if(e.target.closest('.sec-head,a,button,input,textarea,select,.edit,.del')) return;
+        openEditor(map[id]);
+      });
+    });
   };
   window.hideAdminEditButtons = function(){
-    document.querySelectorAll('.admin-edit-btn').forEach(function(b){ b.remove(); });
+    /* 事件监听在 isAdmin=false 时自然失效，无需移除 */
   };
-  function addEditBtn(sectionId, label){
-    var sec = document.getElementById(sectionId);
-    if(!sec) return;
-    var head = sec.querySelector('.sec-head');
-    if(!head) return;
-    var btn = document.createElement('button');
-    btn.className = 'admin-edit-btn';
-    btn.textContent = '✎ 编辑' + label;
-    btn.onclick = function(){ openEditor(sectionId); };
-    head.appendChild(btn);
-  }
 
   /* ---- 编辑面板 DOM ---- */
   var panel = document.createElement('div');
