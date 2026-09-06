@@ -1212,7 +1212,7 @@ function cloudEnabled(){
 /* 从云端拉取页面内容，存入 localStorage 后重新渲染 */
 function loadContentFromCloud(callback){
   if(!cloudEnabled()){ if(callback) callback(false); return; }
-  fetch('https://api.github.com/gists/'+window.CLOUD.GIST_ID, {cache:'no-store'})
+  fetch('https://api.github.com/gists/'+window.CLOUD.GIST_ID, {cache:'no-store', headers:{'Authorization':'token '+window.CLOUD.GITHUB_TOKEN}})
     .then(function(r){ if(!r.ok) throw r; return r.json(); })
     .then(function(data){
       var f = data && data.files && data.files[PAGE_CONTENT_FILE];
