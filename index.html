@@ -365,26 +365,6 @@
   }
   .wall-export:hover{color:var(--red);border-color:var(--red)}
 
-  /* ---------- 口令门（仅公网部署时显示） ---------- */
-  #gate{position:fixed;inset:0;z-index:400;display:none;align-items:center;justify-content:center;
-    background:radial-gradient(120% 90% at 50% 0%,#fdf3ec 0%,#f6e4d8 58%,#efcdd0 100%)}
-  #gate.show{display:flex}
-  .gate-card{background:#fffdf8;border:1px solid #e8d9c5;border-radius:18px;
-    box-shadow:0 18px 50px rgba(140,42,36,.14);padding:32px 28px 24px;width:min(320px,86vw);text-align:center}
-  .gate-logo{width:64px;height:64px;border-radius:50%;object-fit:cover;box-shadow:0 4px 14px rgba(184,53,46,.25)}
-  .gate-title{font-size:1.22rem;color:var(--red-deep);margin-top:12px;letter-spacing:2px}
-  .gate-sub{font-size:.82rem;color:#a0857d;margin-top:6px;letter-spacing:1px}
-  #gateInput{width:100%;box-sizing:border-box;margin-top:18px;padding:11px 14px;font-size:1rem;text-align:center;
-    border:1.5px solid #e0cdb8;border-radius:10px;background:#fff;outline:none;color:#5a3f38;font-family:inherit}
-  #gateInput:focus{border-color:var(--red)}
-  #gateBtn{margin-top:14px;width:100%;padding:11px 0;font-size:.95rem;letter-spacing:6px;color:#fff;
-    background:linear-gradient(135deg,var(--red),var(--red-deep));border:none;border-radius:10px;cursor:pointer;font-family:inherit}
-  #gateBtn:active{transform:translateY(1px)}
-  .gate-err{min-height:1.3em;margin-top:10px;font-size:.8rem;color:#c0392b}
-  .gate-tip{font-size:.72rem;color:#b9a394}
-  .gate-card.shake{animation:gateShake .4s}
-  @keyframes gateShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
-
   /* ---------- 高级增强：进度条 / 光效 / 玻璃拟态 ---------- */
   #progressBar{
     position:fixed;top:0;left:0;height:3px;width:0;z-index:200;
@@ -644,19 +624,6 @@
 </head>
 <body>
 
-<!-- 口令门：仅公网部署时启用（localhost/本地打开自动跳过），防止链接外传后被陌生人打开 -->
-<div id="gate" aria-label="访问口令">
-  <div class="gate-card">
-    <img class="gate-logo" alt="校徽">
-    <div class="gate-title cal">广州市南武实验学校</div>
-    <div class="gate-sub">第42个教师节献礼 · 校内专享</div>
-    <input id="gateInput" type="text" placeholder="请输入班级口令" autocomplete="off">
-    <button id="gateBtn" type="button">进 入</button>
-    <div class="gate-err" id="gateErr"></div>
-    <div class="gate-tip">口令请向班长或老师获取</div>
-  </div>
-</div>
-
 <!-- 开场弹屏：大校徽 → 飞回左上角 -->
 <div id="splash" aria-label="开场画面">
   <div class="splash-inner">
@@ -889,56 +856,6 @@
 </div>
 
 <script>
-/* ---------- 口令门：公网部署时启用，防止链接外传后被陌生人打开 ----------
-   localhost / 127.x / 192.168.x / 本地 file 打开 → 自动跳过，方便站长调试；
-   预览效果可在网址后加 ?gatetest=1 强制显示。改口令只需改下面 GATE_PASS */
-(function(){
-  var GATE_PASS = '南武42';
-  var OKKEY = 'nanwu_gate_ok_v1';
-  var host = location.hostname || '';
-  var isLocal = !host || host==='localhost' || host==='127.0.0.1'
-    || /^192\.168\./.test(host) || /^10\./.test(host) || /^172\.(1[6-9]|2\d|3[01])\./.test(host);
-  var enabled = /[?&]gatetest=1/.test(location.search)
-    || (location.protocol.indexOf('http')===0 && !isLocal);
-  window.__GATE_LOCKED = false;
-  window.__startIntro = null;
-  if(!enabled) return;
-  var gate=document.getElementById('gate');
-  var input=document.getElementById('gateInput');
-  var btn=document.getElementById('gateBtn');
-  var err=document.getElementById('gateErr');
-  var card=gate.querySelector('.gate-card');
-  var logo=document.querySelector('.gate-logo');
-  var srcImg=document.querySelector('#splash .splash-logo');
-  if(logo && srcImg && srcImg.src){ logo.src=srcImg.src; }else if(logo){ logo.style.display='none'; }
-  var passed=false;
-  try{ passed = localStorage.getItem(OKKEY)==='1'; }catch(e){}
-  function unlock(){
-    passed=true;
-    try{ localStorage.setItem(OKKEY,'1'); }catch(e){}
-    gate.classList.remove('show');
-    document.body.style.overflow='';
-    window.__GATE_LOCKED=false;
-    if(window.__startIntro){ var f=window.__startIntro; window.__startIntro=null; f(); }
-  }
-  if(passed) return; /* 本机已解锁过：直接进入，开场照常播放 */
-  /* 未解锁：先锁屏，开场动画等口令通过后再播 */
-  window.__GATE_LOCKED = true;
-  gate.classList.add('show');
-  document.body.style.overflow='hidden';
-  function submit(){
-    var v=(input.value||'').trim();
-    if(v===GATE_PASS){ err.textContent=''; unlock(); }
-    else{
-      err.textContent = v ? '口令不对哦，再想想～' : '请先输入口令';
-      card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
-      input.select();
-    }
-  }
-  btn.addEventListener('click', submit);
-  input.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); submit(); } });
-})();
-
 /* ---------- 开场弹屏 / 彩蛋：校徽停留后飞回左上角 ---------- */
 (function(){
   var splash=document.getElementById('splash');
@@ -1051,12 +968,8 @@
     setTimeout(cleanup, 1100); /* onfinish 兜底：个别内核不回调时也能收尾 */
   }
 
-  /* 首次开场：口令门未通过时先等解锁，通过后再播 */
-  if(window.__GATE_LOCKED){
-    window.__startIntro = function(){ show('intro'); };
-  }else{
-    show('intro');
-  }
+  /* 首次开场：直接播放开场动画 */
+  show('intro');
   /* 点击弹屏任意处：跳过开场 / 彩蛋返回浏览界面 */
   splash.addEventListener('click', end);
 
