@@ -2482,5 +2482,32 @@ function bindTilt(card){
   }, {passive:true});
 })();
 </script>
+<script>
+/* ---------- 滚动显现兜底（独立 script，主脚本异常也不影响卡片显示） ---------- */
+(function(){
+  function scan(){
+    try{
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      document.querySelectorAll('.reveal:not(.visible)').forEach(function(el){
+        var r = el.getBoundingClientRect();
+        if(r.top < vh - 30 && r.bottom > 0){ el.classList.add('visible'); }
+      });
+    }catch(e){}
+  }
+  try{
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    },{threshold:.15});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  }catch(e){}
+  window.addEventListener('scroll', scan, {passive:true});
+  window.addEventListener('resize', scan, {passive:true});
+  window.addEventListener('load', scan);
+  scan();
+  setInterval(scan, 500);  /* 兜底定时扫描，任何漏网卡片进入视口即显示 */
+})();
+</script>
 </body>
 </html>
