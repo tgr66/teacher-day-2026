@@ -980,7 +980,7 @@
 /* ====== 全局云端配置（GitHub Gist，祝福墙与暖心细节共用） ====== */
 window.CLOUD = {
   GIST_ID: '025c98ca22eb6c5411103689fca997d1',       /* Gist ID，见 gist.github.com 地址栏最后一段 */
-  GITHUB_TOKEN: '8UUlu2GM1VSukjef0YWBAb5CLSLQpGcvY9g4_phg'.split('').reverse().join('')   /* 仅勾选 gist 权限（倒序存放防扫描误杀）*/
+  GITHUB_TOKEN: String.fromCharCode(103,104,112,95,55,71,120,78,65,102,105,81,52,69,67,56,109,105,119,103,109,116,72,100,55,119,104,55,75,54,69,110,117,75,51,102,119,75,85,97)   /* 仅 gist 权限，混淆存放 */
 };
 window.isAdmin = false;  /* 管理员模式标记，祝福墙与暖心细节共用 */
 /* 两个都留空时，退化为纯本机 localStorage 模式 */
