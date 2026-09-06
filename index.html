@@ -1569,7 +1569,7 @@ renderTeachers();
   /* ---- 云端：拉取所有人的祝福 ---- */
   function loadCloud(){
     if(!cloudOn) return;
-    fetch('https://api.github.com/gists/'+GIST_ID, {cache:'no-store'})
+    fetch('https://api.github.com/gists/'+GIST_ID, {cache:'no-store', headers:{'Authorization':'token '+GITHUB_TOKEN}})
       .then(function(r){ if(!r.ok) throw r; return r.json(); })
       .then(function(data){
         var f = data && data.files && data.files[GIST_FILE];
@@ -1848,7 +1848,7 @@ console.log('[调试] 即将执行暖心细节IIFE');
   /* 云端拉取 */
   function loadCloud(){
     if(!cloudOn) return;
-    fetch('https://api.github.com/gists/'+GIST_ID, {cache:'no-store'})
+    fetch('https://api.github.com/gists/'+GIST_ID, {cache:'no-store', headers:{'Authorization':'token '+GITHUB_TOKEN}})
       .then(function(r){ if(!r.ok) throw r; return r.json(); })
       .then(function(data){
         var f = data && data.files && data.files[GIST_FILE];
