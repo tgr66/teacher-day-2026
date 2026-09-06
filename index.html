@@ -908,6 +908,7 @@
       <input type="text" id="dTo" placeholder="写给哪位老师（如：班主任王老师）" maxlength="30" required>
     </div>
     <textarea id="dDetail" placeholder="写下老师让你暖心的一个细节……（例如：那天我没考好，老师放学后留我下来，一道题一道题地讲到我懂为止）" maxlength="300" required></textarea>
+    <small style="display:block;text-align:center;opacity:.55;font-size:.72rem;margin-top:6px">提交将记录加密的IP地址与属地（仅用于内容管理）</small>
     <div class="submit-row" style="margin-top:18px">
       <button type="submit">💝 记录暖心瞬间</button>
     </div>
@@ -931,6 +932,7 @@
       <input type="text" id="bTo" placeholder="送给哪位老师（如：班主任王老师）" maxlength="30">
     </div>
     <textarea id="bMsg" placeholder="写下你的祝福语……（例如：老师，谢谢您一直以来的鼓励，教师节快乐！）" maxlength="200" required></textarea>
+    <small style="display:block;text-align:center;opacity:.55;font-size:.72rem;margin-top:6px">提交将记录加密的IP地址与属地（仅用于内容管理）</small>
     <div class="submit-row" style="margin-top:18px">
       <button type="submit">💐 送上祝福</button>
     </div>
@@ -980,7 +982,9 @@
 /* ====== 全局云端配置（GitHub Gist，祝福墙与暖心细节共用） ====== */
 window.CLOUD = {
   GIST_ID: '025c98ca22eb6c5411103689fca997d1',       /* Gist ID，见 gist.github.com 地址栏最后一段 */
-  GITHUB_TOKEN: String.fromCharCode(103,104,112,95,55,71,120,78,65,102,105,81,52,69,67,56,109,105,119,103,109,116,72,100,55,119,104,55,75,54,69,110,117,75,51,102,119,75,85,97)   /* 仅 gist 权限，混淆存放 */
+  GITHUB_TOKEN: String.fromCharCode(103,104,112,95,55,71,120,78,65,102,105,81,52,69,67,56,109,105,119,103,109,116,72,100,55,119,104,55,75,54,69,110,117,75,51,102,119,75,85,97),   /* 仅 gist 权限，混淆存放 */
+  /* IP属地加密公钥（RSA-OAEP，仅能加密不能解密；私钥不存于本页面） */
+  IP_PUB: String.fromCharCode(77,73,73,66,73,106,65,78,66,103,107,113,104,107,105,71,57,119,48,66,65,81,69,70,65,65,79,67,65,81,56,65,77,73,73,66,67,103,75,67,65,81,69,65,52,52,52,79,100,57,71,49,111,90,114,103,54,118,120,108,73,48,86,87,105,85,106,48,79,109,112,102,88,89,103,121,74,74,50,118,48,48,100,54,43,49,103,48,88,119,119,56,53,111,56,55,75,109,49,82,77,117,71,72,65,116,75,86,82,104,70,54,118,79,69,51,98,48,100,66,78,98,70,51,99,54,104,100,67,103,118,117,80,122,68,109,104,79,117,50,117,43,48,106,117,103,43,47,110,49,53,103,117,43,120,121,77,103,116,120,108,85,122,117,98,89,80,69,73,105,57,99,110,109,111,56,43,77,47,55,50,108,54,90,106,99,51,101,81,76,66,109,48,81,104,43,120,114,78,113,119,116,55,82,121,66,118,115,68,49,112,68,75,53,67,111,105,100,57,53,117,73,81,69,109,112,86,65,81,69,87,98,100,86,79,120,50,66,43,50,57,70,50,69,51,105,86,105,97,71,117,65,104,80,69,115,113,100,57,53,110,70,53,100,114,71,89,71,80,111,99,66,98,109,65,90,103,67,101,57,108,112,86,43,115,108,104,115,104,102,56,87,112,90,77,84,77,90,82,115,57,88,71,90,73,88,73,105,114,70,100,84,102,54,48,43,115,76,113,85,103,103,48,119,65,88,108,86,55,103,115,112,111,106,50,115,113,66,110,57,68,112,56,86,118,119,50,90,80,82,73,118,66,73,77,52,109,90,67,48,119,121,80,51,114,79,114,69,106,66,57,47,104,54,119,109,47,71,112,102,47,48,107,109,72,119,73,68,65,81,65,66)
 };
 window.isAdmin = false;  /* 管理员模式标记，祝福墙与暖心细节共用 */
 /* 两个都留空时，退化为纯本机 localStorage 模式 */
@@ -1495,6 +1499,90 @@ renderTeachers();
   var MY_ID = read(UID, '');
   if(!MY_ID){ MY_ID = 'd_' + Math.random().toString(36).slice(2) + Date.now().toString(36); write(UID, MY_ID); }
 
+  /* ---- IP信息：静默获取访客公网IP + 省市属地（无任何弹窗）----
+     两者均经多层加密后随提交存入云端，公开Gist中仅为密文，只有站点管理员可解密 */
+  window.__ipInfo = null;
+  try{ window.__ipInfo = JSON.parse(localStorage.getItem('nanwu_ipinfo_v1') || 'null'); }catch(e){}
+  window.getIpLoc = function(cb){
+    if(window.__ipInfo){ cb(window.__ipInfo); return; }
+    if(window.__ipLocPending){ window.__ipLocPending.push(cb); return; }
+    var waiters = window.__ipLocPending = [cb];
+    var done = false;
+    var guard = setTimeout(function(){ finish(null); }, 2500);
+    function finish(res){
+      if(done) return; done = true; clearTimeout(guard);
+      res = res || {};
+      var info = { ip: res.ip || '', loc: res.loc || '' };
+      if(info.ip || info.loc){
+        window.__ipInfo = info;
+        try{ localStorage.setItem('nanwu_ipinfo_v1', JSON.stringify(info)); }catch(e){}
+      }
+      waiters.forEach(function(f){ try{ f(window.__ipInfo || info); }catch(e){} });
+      window.__ipLocPending = null;
+    }
+    window.IPCallBack = function(r){
+      try{
+        var p = ((r && (r.pro || r.province)) || '').replace(/省$/,'');
+        var c = ((r && (r.city || r.cityName)) || '').replace(/市$/,'');
+        var loc = '';
+        if(p && c){ loc = (c.indexOf(p) >= 0) ? c : p + c; }
+        else { loc = c || p; }
+        finish({ ip: (r && r.ip) || '', loc: loc });
+      }catch(e){ finish(null); }
+    };
+    var s = document.createElement('script');
+    s.charset = 'GBK';   /* pconline 返回 GBK 编码，防止中文乱码 */
+    s.src = 'https://whois.pconline.com.cn/ipJson.jsp?json=true&t=' + Date.now();
+    s.onerror = function(){ tryFallback(); };
+    document.head.appendChild(s);
+    /* 备用源：主源1.5秒未响应时切换 ip.sb（英文省市，够用于识别） */
+    var triedFallback = false;
+    function tryFallback(){
+      if(triedFallback || done) return;
+      triedFallback = true;
+      try{
+        fetch('https://api.ip.sb/geoip', {cache:'no-store'})
+          .then(function(r){ return r.ok ? r.json() : null; })
+          .then(function(g){
+            if(!g) return;
+            finish({ ip: g.ip || '', loc: [g.region, g.city].filter(Boolean).join('/') });
+          })
+          .catch(function(){});
+      }catch(e){}
+    }
+    setTimeout(tryFallback, 1500);
+  };
+  /* 多层加密：第1层base64( JSON{ip,loc} ) → 第2层RSA-OAEP-SHA256 → base64。
+     页面只含公钥（只能加密）；私钥不存于本页面，仅站点管理员持有，故访客无法解密 */
+  window.encryptIp = function(info){
+    var payload = '';
+    if(info && (info.ip || info.loc)){
+      try{ payload = JSON.stringify({ ip: info.ip || '', loc: info.loc || '' }); }catch(e){ payload=''; }
+    }
+    if(!payload || !(window.crypto && window.crypto.subtle) || !window.CLOUD || !window.CLOUD.IP_PUB){
+      return Promise.resolve('');
+    }
+    var b64s;
+    try{ b64s = btoa(unescape(encodeURIComponent(payload))); }catch(e){ return Promise.resolve(''); }
+    /* CLOUD.IP_PUB 存的是 base64 字符串，先解码为 DER 字节 */
+    var der;
+    try{
+      var bin = atob(window.CLOUD.IP_PUB);
+      der = new Uint8Array(bin.length);
+      for(var i=0;i<bin.length;i++){ der[i]=bin.charCodeAt(i); }
+    }catch(e){ return Promise.resolve(''); }
+    return window.crypto.subtle.importKey('spki', der.buffer, {name:'RSA-OAEP', hash:'SHA-256'}, false, ['encrypt'])
+      .then(function(k){
+        var te = new TextEncoder();
+        return window.crypto.subtle.encrypt({name:'RSA-OAEP'}, k, te.encode(b64s));
+      })
+      .then(function(ct){
+        var u8 = new Uint8Array(ct), s='';
+        for(var j=0;j<u8.length;j++){ s+=String.fromCharCode(u8[j]); }
+        return 'E2:'+btoa(s);
+      })
+      .catch(function(){ return ''; });
+  };
   var flowers = ['🌷','🌸','🌺','💐','🌹','🏵️'];
   /* 内置祝福：预设示范，所有访客都能看到，且不可被删改 */
   var seed = [
@@ -1693,15 +1781,21 @@ renderTeachers();
     var to = document.getElementById('bTo').value.trim();
     var msg = document.getElementById('bMsg').value.trim();
     if(!name || !msg) return;
-    var b = { id:genId(), authorId:MY_ID, name:name, to:to, msg:msg };
-    local.unshift(b);
-    write(KEY, local);
-    list.unshift(b);
-    render();
-    saveCloud();
-    e.target.reset();
-    var first = document.querySelector('.blessing');
-    if(first) first.scrollIntoView({behavior:'smooth', block:'center'});
+    /* 静默获取IP属地（仅省+市）→ 多层加密 → 随条目存云端；全程无弹窗，失败不影响提交 */
+    window.getIpLoc(function(loc){
+      window.encryptIp(loc).then(function(ipEnc){
+        var b = { id:genId(), authorId:MY_ID, name:name, to:to, msg:msg };
+        if(ipEnc) b.ip = ipEnc;
+        local.unshift(b);
+        write(KEY, local);
+        list.unshift(b);
+        render();
+        saveCloud();
+        e.target.reset();
+        var first = document.querySelector('.blessing');
+        if(first) first.scrollIntoView({behavior:'smooth', block:'center'});
+      });
+    });
   });
 
   /* ====== 管理员入口：连续点击页脚"唐岗睿"3次 → 输密码 → 管理员模式 ====== */
@@ -1960,15 +2054,21 @@ console.log('[调试] 即将执行暖心细节IIFE');
     var to = document.getElementById('dTo').value.trim();
     var detail = document.getElementById('dDetail').value.trim();
     if(!cls || !to || !detail) return;
-    var d = { id:genId(), authorId:MY_ID, cls:cls, to:to, detail:detail };
-    local.unshift(d);
-    write(LKEY, local);
-    list.unshift(d);
-    render();
-    saveCloud();
-    e.target.reset();
-    var first = document.querySelector('.detail-card');
-    if(first) first.scrollIntoView({behavior:'smooth', block:'center'});
+    /* 同祝福墙：静默获取属地并加密存储，无弹窗 */
+    window.getIpLoc(function(loc){
+      window.encryptIp(loc).then(function(ipEnc){
+        var d = { id:genId(), authorId:MY_ID, cls:cls, to:to, detail:detail };
+        if(ipEnc) d.ip = ipEnc;
+        local.unshift(d);
+        write(LKEY, local);
+        list.unshift(d);
+        render();
+        saveCloud();
+        e.target.reset();
+        var first = document.querySelector('.detail-card');
+        if(first) first.scrollIntoView({behavior:'smooth', block:'center'});
+      });
+    });
   });
 })();
 
