@@ -330,6 +330,22 @@
     display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
     gap:22px;max-width:1200px;margin:0 auto;
   }
+  /* 教师育人暖心细节 */
+  #details{background:linear-gradient(180deg,var(--cream),var(--cream-deep))}
+  .detail-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:22px;max-width:1200px;margin:0 auto;
+  }
+  .detail-card{
+    background:var(--white);border-radius:16px;padding:24px 26px;
+    box-shadow:var(--shadow);position:relative;
+    border-left:5px solid #e88a9b;
+    animation:pop .5s ease;
+  }
+  .detail-card .d-heart{position:absolute;top:-12px;right:18px;font-size:1.5rem}
+  .detail-card .d-detail{font-size:.98rem;line-height:2;color:#5d4741;margin-bottom:14px}
+  .detail-card .d-to{font-size:.9rem;color:#b8352e;font-weight:700;margin-bottom:4px}
+  .detail-card .d-class{text-align:right;font-size:.82rem;color:#a0857d}
   .blessing{
     background:var(--white);border-radius:16px;padding:26px;
     box-shadow:var(--shadow);position:relative;
@@ -340,14 +356,149 @@
   .blessing .msg{font-size:1rem;line-height:2;color:#5d4741;margin-bottom:16px}
   .blessing .who{text-align:right;font-size:.9rem;color:var(--red-deep);font-weight:700}
   .blessing .flower{position:absolute;top:-12px;right:18px;font-size:1.6rem}
-  .blessing .del{
+  .blessing .del, .detail-card .del{
     position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;
     border:none;background:rgba(184,53,46,.08);color:#b8352e;font-size:1rem;line-height:1;
     cursor:pointer;opacity:0;transition:opacity .25s,background .25s,color .25s;
     display:grid;place-items:center;z-index:3;font-family:inherit;
   }
-  .blessing:hover .del{opacity:1}
-  .blessing .del:hover{background:var(--red);color:#fff}
+  .blessing .edit, .detail-card .edit{
+    position:absolute;top:6px;right:36px;width:26px;height:26px;border-radius:50%;
+    border:none;background:rgba(184,134,11,.1);color:#b8860b;font-size:.85rem;line-height:1;
+    cursor:pointer;opacity:0;transition:opacity .25s,background .25s,color .25s;
+    display:grid;place-items:center;z-index:3;font-family:inherit;
+  }
+  .blessing:hover .del,.blessing:hover .edit,.detail-card:hover .del,.detail-card:hover .edit{opacity:1}
+  .blessing .del:hover, .detail-card .del:hover{background:var(--red);color:#fff}
+  .blessing .edit:hover, .detail-card .edit:hover{background:#b8860b;color:#fff}
+  /* 内联编辑表单 */
+  .blessing .edit-form input,.blessing .edit-form textarea,
+  .detail-card .edit-form input,.detail-card .edit-form textarea{
+    width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid #e0d2c4;
+    border-radius:8px;font-family:inherit;font-size:.92rem;background:#fff9f3;color:#5d4741;
+    margin-bottom:8px;resize:vertical;
+  }
+  .blessing .edit-form textarea, .detail-card .edit-form textarea{min-height:70px}
+  .blessing .edit-form .edit-actions, .detail-card .edit-form .edit-actions{display:flex;gap:8px;justify-content:flex-end}
+  .blessing .edit-form button, .detail-card .edit-form button{
+    padding:6px 16px;border-radius:8px;border:none;cursor:pointer;font-family:inherit;font-size:.85rem;
+  }
+  .blessing .edit-form .save, .detail-card .edit-form .save{background:var(--red);color:#fff}
+  .blessing .edit-form .cancel, .detail-card .edit-form .cancel{background:#e8ddd0;color:#7a5a50}
+  .blessing.mine, .detail-card.mine{border-left-color:#c0392b}  /* 自己写的高亮左边框 */
+  /* 管理员模式：所有卡片都可编辑 */
+  body.admin-on .blessing, body.admin-on .detail-card{border-left-color:#2c7a3d}
+  body.admin-on #adminTrigger{color:#7CFC00;border-color:#7CFC00;opacity:1}
+
+  /* 管理员密码弹窗 */
+  #adminModal{
+    position:fixed;inset:0;background:rgba(40,20,15,.7);backdrop-filter:blur(4px);
+    display:none;align-items:center;justify-content:center;z-index:9999;
+  }
+  #adminModal.show{display:flex}
+  #adminModal .box{
+    background:#fff9f3;border-radius:16px;padding:30px 28px;width:90%;max-width:340px;
+    box-shadow:0 20px 60px rgba(0,0,0,.4);text-align:center;
+  }
+  #adminModal h4{font-size:1.1rem;color:#5d4741;margin-bottom:14px}
+  #adminModal input{
+    width:100%;box-sizing:border-box;padding:12px;border:1px solid #e0d2c4;border-radius:10px;
+    font-size:1rem;text-align:center;letter-spacing:6px;font-family:inherit;
+  }
+  #adminModal .err{color:#b8352e;font-size:.82rem;margin-top:10px;min-height:18px}
+  #adminModal .actions{display:flex;gap:10px;margin-top:16px}
+  #adminModal .actions button{
+    flex:1;padding:10px;border-radius:10px;border:none;cursor:pointer;font-family:inherit;font-size:.9rem;
+  }
+  #adminModal .actions .ok{background:var(--red);color:#fff}
+  #adminModal .actions .cc{background:#e8ddd0;color:#7a5a50}
+
+  /* ---------- 管理员编辑按钮 ---------- */
+  .admin-edit-btn{
+    margin-top:10px;padding:6px 16px;border-radius:8px;border:1px dashed #b8352e;
+    background:transparent;color:#b8352e;cursor:pointer;font-family:inherit;font-size:.85rem;
+    transition:all .2s;
+  }
+  .admin-edit-btn:hover{background:#b8352e;color:#fff}
+
+  /* ---------- 管理员编辑面板 ---------- */
+  #adminEditor{
+    position:fixed;inset:0;background:rgba(40,20,15,.75);backdrop-filter:blur(4px);
+    display:none;align-items:center;justify-content:center;z-index:10000;padding:20px;
+  }
+  #adminEditor.show{display:flex}
+  #adminEditor .ae-box{
+    background:#fff9f3;border-radius:16px;width:100%;max-width:720px;max-height:90vh;
+    display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.4);
+  }
+  #adminEditor .ae-header{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:18px 24px;border-bottom:1px solid #e8ddd0;
+  }
+  #adminEditor .ae-header h3{color:#5d4741;font-size:1.2rem}
+  #adminEditor .ae-close{
+    width:32px;height:32px;border-radius:50%;border:none;background:#e8ddd0;
+    color:#7a5a50;font-size:1.2rem;cursor:pointer;
+  }
+  #adminEditor .ae-tabs{display:flex;gap:6px;padding:12px 24px;border-bottom:1px solid #e8ddd0;flex-wrap:wrap}
+  #adminEditor .ae-tabs button{
+    padding:8px 16px;border-radius:8px;border:1px solid #e0d2c4;background:#fff;
+    color:#7a5a50;cursor:pointer;font-family:inherit;font-size:.88rem;
+  }
+  #adminEditor .ae-tabs button.active{background:var(--red);color:#fff;border-color:var(--red)}
+  #adminEditor .ae-body{flex:1;overflow-y:auto;padding:20px 24px}
+  #adminEditor .ae-body label{display:block;font-size:.85rem;color:#7a5a50;margin:10px 0 4px}
+  #adminEditor .ae-body input,#adminEditor .ae-body textarea{
+    width:100%;box-sizing:border-box;padding:8px 12px;border:1px solid #e0d2c4;border-radius:8px;
+    font-family:inherit;font-size:.92rem;background:#fff;color:#5d4741;
+  }
+  #adminEditor .ae-body textarea{resize:vertical}
+  #adminEditor .ae-tip{font-size:.82rem;color:#a0857d;margin:0 0 12px}
+  #adminEditor .ae-card{
+    background:#fff;border:1px solid #e8ddd0;border-radius:10px;padding:14px;margin-bottom:14px;
+  }
+  #adminEditor .ae-card-head{
+    display:flex;justify-content:space-between;align-items:center;
+    font-weight:700;color:#5d4741;margin-bottom:10px;
+  }
+  #adminEditor .ae-row{display:flex;gap:8px;margin-bottom:8px;align-items:flex-start}
+  #adminEditor .ae-row textarea{flex:1}
+  #adminEditor .ae-del{
+    padding:6px 12px;border-radius:6px;border:none;background:#fde8e8;color:#b8352e;
+    cursor:pointer;font-family:inherit;font-size:.8rem;white-space:nowrap;
+  }
+  #adminEditor .ae-add{
+    width:100%;padding:10px;border:1px dashed #b8352e;border-radius:8px;background:transparent;
+    color:#b8352e;cursor:pointer;font-family:inherit;font-size:.9rem;margin-top:8px;
+  }
+  #adminEditor .ae-footer{
+    display:flex;gap:10px;padding:16px 24px;border-top:1px solid #e8ddd0;justify-content:flex-end;
+  }
+  #adminEditor .ae-footer button{
+    padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-family:inherit;font-size:.9rem;
+  }
+  #adminEditor .ae-save{background:var(--red);color:#fff}
+  #adminEditor .ae-reset{background:#fff3e0;color:#b8860b;border:1px solid #e8c87a}
+  #adminEditor .ae-cancel{background:#e8ddd0;color:#7a5a50}
+
+  /* ---------- 退出管理员确认弹窗 ---------- */
+  #exitConfirm{
+    position:fixed;inset:0;background:rgba(40,20,15,.7);backdrop-filter:blur(4px);
+    display:none;align-items:center;justify-content:center;z-index:10001;
+  }
+  #exitConfirm.show{display:flex}
+  #exitConfirm .ec-box{
+    background:#fff9f3;border-radius:16px;padding:28px 26px;width:90%;max-width:360px;
+    box-shadow:0 20px 60px rgba(0,0,0,.4);text-align:center;
+  }
+  #exitConfirm h4{color:#5d4741;font-size:1.15rem;margin-bottom:12px}
+  #exitConfirm p{color:#7a5a50;font-size:.9rem;line-height:1.7;margin-bottom:18px}
+  #exitConfirm .ec-actions{display:flex;gap:10px}
+  #exitConfirm .ec-actions button{
+    flex:1;padding:10px;border-radius:8px;border:none;cursor:pointer;font-family:inherit;font-size:.9rem;
+  }
+  #exitConfirm .ec-ok{background:var(--red);color:#fff}
+  #exitConfirm .ec-cancel{background:#e8ddd0;color:#7a5a50}
 
   /* ---------- 页脚 ---------- */
   footer{
@@ -358,12 +509,6 @@
   footer p{line-height:2;font-size:.95rem;opacity:.85}
   footer .line{width:80px;height:2px;background:var(--gold);margin:22px auto;opacity:.5}
   footer small{display:block;opacity:.6;font-size:.82rem;line-height:2}
-  .wall-export{
-    display:block;margin:28px auto 0;padding:9px 20px;font-size:.8rem;color:#a0857d;
-    background:transparent;border:1px dashed #d8c3b2;border-radius:999px;cursor:pointer;
-    font-family:inherit;letter-spacing:1px;transition:color .25s,border-color .25s;
-  }
-  .wall-export:hover{color:var(--red);border-color:var(--red)}
 
   /* ---------- 高级增强：进度条 / 光效 / 玻璃拟态 ---------- */
   #progressBar{
@@ -579,7 +724,7 @@
     #toTop{right:18px;bottom:20px;width:48px;height:48px}
   }
   @media(max-width:600px){
-    .teacher-grid,.wall-grid,.quote-grid{grid-template-columns:1fr}
+    .teacher-grid,.wall-grid,.quote-grid,.detail-grid{grid-template-columns:1fr}
     .spirit-grid{grid-template-columns:1fr;gap:18px}
     .spirit-card{padding:32px 24px 26px}
     .spirit-lead{font-size:.98rem;margin-bottom:30px}
@@ -605,7 +750,7 @@
     #lightbox .lb-name{font-size:1.35rem;margin-top:14px}
     #lightbox .lb-sub{font-size:.82rem;letter-spacing:1px}
     #lightbox .lb-intro{font-size:.9rem;line-height:1.75}
-    .blessing .del{opacity:1}  /* 触屏无悬停，删除按钮常驻 */
+    .blessing .del,.blessing .edit,.detail-card .del,.detail-card .edit{opacity:1}  /* 触屏无悬停，按钮常驻 */
     /* 开场弹屏手机尺寸 */
     .splash-logo-wrap{width:130px;height:130px}
     .splash-logo{width:130px;height:130px}
@@ -648,7 +793,8 @@
     <li><a href="#message">节日寄语</a></li>
     <li><a href="#spirit">教育家精神</a></li>
     <li><a href="#quotes">师恩名句</a></li>
-    <li><a href="#teachers">教师风采</a></li>
+    <li><a href="#teachers">教师简介</a></li>
+    <li><a href="#details">暖心细节</a></li>
     <li><a href="#wall">祝福墙</a></li>
   </ul>
 </nav>
@@ -701,14 +847,8 @@
     <h2 class="cal">节日寄语</h2>
     <div class="deco">❀</div>
   </div>
-  <div class="letter reveal">
-    <h3 class="cal">致全体教师的教师节慰问信</h3>
-    <p>金秋送爽，丹桂飘香。在硕果盈枝、礼赞师恩的美好时节，我们迎来了第42个教师节。在此，谨向默默坚守讲台、潜心立德树人的全体教师及教职工，致以最诚挚的节日问候和最崇高的敬意！老师，您辛苦了！</p>
-    <p>三尺讲台系国运，一生秉烛育新人。教育兴则国家兴，教师强则教育强。新时代新征程，我们大力弘扬心有大我、至诚报国，启智润心、因材施教，勤学笃行、求是创新，乐教爱生、甘于奉献，胸怀天下、以文化人的教育家精神。这崇高的精神，正是每一位一线教师最真实的写照。</p>
-    <p>日复一日，你们坚守育人初心、躬耕教坛。清晨迎着朝阳启智授课，深夜伏案钻研备课、批改课业、耐心答疑。课堂之上，你们传授知识、启迪智慧，为学子点亮前行的灯塔；生活之中，你们温柔陪伴、悉心呵护，用责任与大爱守护每一位学生的成长。</p>
-    <p>你们以师者立身、以德行为人师，不仅传授文化学识，更践行教育家精神，润物无声培育学生品格、涵养家国情怀。你们精益求精深耕教学，用心用情关爱学生，用平凡的坚守诠释教育担当，用无私的奉献浇灌桃李芳华。学校的每一份发展、学生的每一点进步，都凝聚着全体教师的心血与耕耘。</p>
-    <p>师者如光，薪火相传。正是一代代教师传承育人初心、弘扬教育家精神，以热爱赴使命、以匠心育新人，托举起万千学子的青春梦想。</p>
-    <p>值此佳节，衷心祝愿全体教师节日快乐、身体健康、工作顺遂、阖家安康！愿全体教师永葆教育热忱，赓续育人使命，大力弘扬教育家精神，深耕教坛、笃行不怠，以微光聚星河，用心培育新时代栋梁之才！</p>
+  <div class="letter reveal" id="letterBox">
+    <!-- 由 JS 渲染 -->
   </div>
 </section>
 
@@ -723,43 +863,8 @@
     教师是立教之本、兴教之源。在教师节这个庄严而温暖的日子里，让我们共同铭记并大力弘扬中国特有的教育家精神——
     <span class="source">—— 心有大我、至诚报国的理想信念，言为士则、行为世范的道德情操，启智润心、因材施教的育人智慧，勤学笃行、求是创新的躬耕态度，乐教爱生、甘于奉献的仁爱之心，胸怀天下、以文化人的使命担当</span>
   </p>
-  <div class="spirit-grid">
-    <div class="spirit-card reveal">
-      <div class="num cal">一</div>
-      <div class="s-words cal">心有大我<br>至诚报国</div>
-      <div class="s-dim"><span>理想信念</span></div>
-      <p class="s-desc">把个人理想融入国家发展，以三尺讲台系家国，培养担当民族复兴大任的时代新人。</p>
-    </div>
-    <div class="spirit-card reveal">
-      <div class="num cal">二</div>
-      <div class="s-words cal">言为士则<br>行为世范</div>
-      <div class="s-dim"><span>道德情操</span></div>
-      <p class="s-desc">以身作则、以德立身，一言一行皆为学生榜样，用高尚师德照亮学生成长之路。</p>
-    </div>
-    <div class="spirit-card reveal">
-      <div class="num cal">三</div>
-      <div class="s-words cal">启智润心<br>因材施教</div>
-      <div class="s-dim"><span>育人智慧</span></div>
-      <p class="s-desc">尊重每一个孩子的不同，用智慧点亮思想、用耐心滋养心灵，让每个生命都精彩绽放。</p>
-    </div>
-    <div class="spirit-card reveal">
-      <div class="num cal">四</div>
-      <div class="s-words cal">勤学笃行<br>求是创新</div>
-      <div class="s-dim"><span>躬耕态度</span></div>
-      <p class="s-desc">终身学习、潜心治学，在教学一线精益求精、勇于探索，让课堂常讲常新。</p>
-    </div>
-    <div class="spirit-card reveal">
-      <div class="num cal">五</div>
-      <div class="s-words cal">乐教爱生<br>甘于奉献</div>
-      <div class="s-dim"><span>仁爱之心</span></div>
-      <p class="s-desc">以爱育爱、以情化人，把学生当作自己的孩子，默默守护每一段青春的成长。</p>
-    </div>
-    <div class="spirit-card reveal">
-      <div class="num cal">六</div>
-      <div class="s-words cal">胸怀天下<br>以文化人</div>
-      <div class="s-dim"><span>使命担当</span></div>
-      <p class="s-desc">传承中华文脉、拓宽国际视野，用文化的力量培根铸魂，育时代栋梁、开天下气象。</p>
-    </div>
+  <div class="spirit-grid" id="spiritGrid">
+    <!-- 由 JS 渲染 -->
   </div>
 </section>
 
@@ -771,40 +876,44 @@
     <div class="deco">❀</div>
     <p>千言万语，汇成一句——谢谢您，老师</p>
   </div>
-  <div class="quote-grid">
-    <div class="quote-card reveal">
-      <div class="icon">📖</div>
-      <div class="words cal">师者，所以<br>传道授业解惑也</div>
-      <div class="from">—— 韩愈《师说》</div>
-    </div>
-    <div class="quote-card reveal">
-      <div class="icon">🕯️</div>
-      <div class="words cal">春蚕到死丝方尽<br>蜡炬成灰泪始干</div>
-      <div class="from">—— 李商隐《无题》</div>
-    </div>
-    <div class="quote-card reveal">
-      <div class="icon">🌸</div>
-      <div class="words cal">桃李不言<br>下自成蹊</div>
-      <div class="from">—— 《史记·李将军列传》</div>
-    </div>
-    <div class="quote-card reveal">
-      <div class="icon">🍂</div>
-      <div class="words cal">落红不是无情物<br>化作春泥更护花</div>
-      <div class="from">—— 龚自珍《己亥杂诗》</div>
-    </div>
+  <div class="quote-grid" id="quoteGrid">
+    <!-- 由 JS 渲染 -->
   </div>
 </section>
 
-<!-- 教师风采 -->
+<!-- 教师简介 -->
 <section id="teachers">
   <div class="sec-head reveal">
     <div class="en">Our Teachers</div>
-    <h2 class="cal">教师风采 · 南实七师</h2>
+    <h2 class="cal">教师简介 · 南实七师</h2>
     <div class="deco">❀</div>
     <p>讲台之上，是他们最美的模样 · 排名不分先后</p>
   </div>
   <div class="teacher-grid" id="teacherGrid"></div>
   <p class="grid-note">— 一支粉笔书春秋，两袖清风育桃李 —</p>
+</section>
+
+<!-- 教师育人暖心细节 -->
+<section id="details">
+  <div class="sec-head reveal">
+    <div class="en">Heartwarming Moments</div>
+    <h2 class="cal">教师育人暖心细节</h2>
+    <div class="deco">❀</div>
+    <p>那些被温柔以待的瞬间，值得被记住</p>
+  </div>
+
+  <form class="wall-form reveal" id="detailForm">
+    <div class="row">
+      <input type="text" id="dClass" placeholder="你的班级（如：2024级1班）" maxlength="20" required>
+      <input type="text" id="dTo" placeholder="写给哪位老师（如：班主任王老师）" maxlength="30" required>
+    </div>
+    <textarea id="dDetail" placeholder="写下老师让你暖心的一个细节……（例如：那天我没考好，老师放学后留我下来，一道题一道题地讲到我懂为止）" maxlength="300" required></textarea>
+    <div class="submit-row" style="margin-top:18px">
+      <button type="submit">💝 记录暖心瞬间</button>
+    </div>
+  </form>
+
+  <div class="detail-grid" id="detailGrid"></div>
 </section>
 
 <!-- 祝福墙 -->
@@ -828,7 +937,6 @@
   </form>
 
   <div class="wall-grid" id="wallGrid"></div>
-  <button type="button" class="wall-export" id="exportBlessings">站长工具 · 导出本机祝福</button>
 </section>
 
 <footer>
@@ -836,7 +944,7 @@
   <p>广州市南武实验学校 · 2026年教师节专题</p>
   <div class="line"></div>
   <small>谨以此页，献给每一位默默奉献的人民教师 ❤</small>
-  <small>© 本网页由2024级1班唐岗睿独立制作，版权归本人所有，仅用于广州市南武实验学校教师节主题展示，禁止修改、盗用、二次使用。</small>
+  <small>© 本网页由2024级1班<span id="adminTrigger" style="cursor:pointer;opacity:.75;border-bottom:1px dashed rgba(255,255,255,.3)">唐岗睿</span>独立制作，版权归本人所有，仅用于广州市南武实验学校教师节主题展示，禁止修改、盗用、二次使用。</small>
 </footer>
 
 <button id="toTop" title="回到顶部" aria-label="回到顶部">
@@ -846,7 +954,7 @@
 
 <div id="lightbox">
   <figure>
-    <img alt="教师风采大图">
+    <img alt="教师简介大图">
     <figcaption>
       <div class="lb-name cal"></div>
       <div class="lb-sub"></div>
@@ -855,7 +963,28 @@
   </figure>
 </div>
 
+<!-- 管理员密码弹窗 -->
+<div id="adminModal">
+  <div class="box">
+    <h4>🔒 管理员验证</h4>
+    <input type="password" id="adminPwd" placeholder="请输入密码" maxlength="10" autocomplete="off">
+    <div class="err" id="adminErr"></div>
+    <div class="actions">
+      <button type="button" class="cc" id="adminCancel">取消</button>
+      <button type="button" class="ok" id="adminOk">进入</button>
+    </div>
+  </div>
+</div>
+
 <script>
+/* ====== 全局云端配置（GitHub Gist，祝福墙与暖心细节共用） ====== */
+window.CLOUD = {
+  GIST_ID: '',       /* Gist ID，见 gist.github.com 地址栏最后一段 */
+  GITHUB_TOKEN: ''   /* 仅勾选 gist 权限的 Personal Access Token */
+};
+window.isAdmin = false;  /* 管理员模式标记，祝福墙与暖心细节共用 */
+/* 两个都留空时，退化为纯本机 localStorage 模式 */
+
 /* ---------- 开场弹屏 / 彩蛋：校徽停留后飞回左上角 ---------- */
 (function(){
   var splash=document.getElementById('splash');
@@ -1033,45 +1162,227 @@ setImgWithRetry(document.getElementById('heroImg'), imgUrl(
   '教师节主题温暖插画，中国校园里老师与学生们手捧粉色康乃馨鲜花，阳光明媚，手绘水彩风格，暖红色与金色调，喜庆温馨',
   'landscape_16_9'
 ));
+
+/* ============================================================
+   内容管理系统：节日寄语 / 教育家精神 / 师恩名句 / 教师简介
+   管理员模式下可编辑，修改保存在 localStorage，刷新后仍生效
+   ============================================================ */
+var CONTENT_KEY = 'nanwu_admin_content_v1';
+
+/* ---- 原始默认数据 ---- */
+var DEFAULT_CONTENT = {
+  message: {
+    title: '致全体教师的教师节慰问信',
+    paragraphs: [
+      '金秋送爽，丹桂飘香。在硕果盈枝、礼赞师恩的美好时节，我们迎来了第42个教师节。在此，谨向默默坚守讲台、潜心立德树人的全体教师及教职工，致以最诚挚的节日问候和最崇高的敬意！老师，您辛苦了！',
+      '三尺讲台系国运，一生秉烛育新人。教育兴则国家兴，教师强则教育强。新时代新征程，我们大力弘扬心有大我、至诚报国，启智润心、因材施教，勤学笃行、求是创新，乐教爱生、甘于奉献，胸怀天下、以文化人的教育家精神。这崇高的精神，正是每一位一线教师最真实的写照。',
+      '日复一日，你们坚守育人初心、躬耕教坛。清晨迎着朝阳启智授课，深夜伏案钻研备课、批改课业、耐心答疑。课堂之上，你们传授知识、启迪智慧，为学子点亮前行的灯塔；生活之中，你们温柔陪伴、悉心呵护，用责任与大爱守护每一位学生的成长。',
+      '你们以师者立身、以德行为人师，不仅传授文化学识，更践行教育家精神，润物无声培育学生品格、涵养家国情怀。你们精益求精深耕教学，用心用情关爱学生，用平凡的坚守诠释教育担当，用无私的奉献浇灌桃李芳华。学校的每一份发展、学生的每一点进步，都凝聚着全体教师的心血与耕耘。',
+      '师者如光，薪火相传。正是一代代教师传承育人初心、弘扬教育家精神，以热爱赴使命、以匠心育新人，托举起万千学子的青春梦想。',
+      '值此佳节，衷心祝愿全体教师节日快乐、身体健康、工作顺遂、阖家安康！愿全体教师永葆教育热忱，赓续育人使命，大力弘扬教育家精神，深耕教坛、笃行不怠，以微光聚星河，用心培育新时代栋梁之才！'
+    ]
+  },
+  spirit: [
+    {num:'一', words:'心有大我\n至诚报国', dim:'理想信念', desc:'把个人理想融入国家发展，以三尺讲台系家国，培养担当民族复兴大任的时代新人。'},
+    {num:'二', words:'言为士则\n行为世范', dim:'道德情操', desc:'以身作则、以德立身，一言一行皆为学生榜样，用高尚师德照亮学生成长之路。'},
+    {num:'三', words:'启智润心\n因材施教', dim:'育人智慧', desc:'尊重每一个孩子的不同，用智慧点亮思想、用耐心滋养心灵，让每个生命都精彩绽放。'},
+    {num:'四', words:'勤学笃行\n求是创新', dim:'躬耕态度', desc:'终身学习、潜心治学，在教学一线精益求精、勇于探索，让课堂常讲常新。'},
+    {num:'五', words:'乐教爱生\n甘于奉献', dim:'仁爱之心', desc:'以爱育爱、以情化人，把学生当作自己的孩子，默默守护每一段青春的成长。'},
+    {num:'六', words:'胸怀天下\n以文化人', dim:'使命担当', desc:'传承中华文脉、拓宽国际视野，用文化的力量培根铸魂，育时代栋梁、开天下气象。'}
+  ],
+  quotes: [
+    {icon:'📖', words:'师者，所以\n传道授业解惑也', from:'韩愈《师说》'},
+    {icon:'🕯️', words:'春蚕到死丝方尽\n蜡炬成灰泪始干', from:'李商隐《无题》'},
+    {icon:'🌸', words:'桃李不言\n下自成蹊', from:'《史记·李将军列传》'},
+    {icon:'🍂', words:'落红不是无情物\n化作春泥更护花', from:'龚自珍《己亥杂诗》'},
+    {icon:'🌧️', words:'随风潜入夜\n润物细无声', from:'杜甫《春夜喜雨》'},
+    {icon:'🌳', words:'令公桃李满天下\n何用堂前更种花', from:'白居易《奉和令公绿野堂种花》'}
+  ]
+};
+
+/* 深拷贝工具 */
+function deepCopy(o){ return JSON.parse(JSON.stringify(o)); }
+
+/* ====== 云端内容同步（Gist 的 page_content.json） ====== */
+var PAGE_CONTENT_FILE = 'page_content.json';
+function cloudEnabled(){
+  return !!(window.CLOUD && window.CLOUD.GIST_ID && window.CLOUD.GITHUB_TOKEN);
+}
+
+/* 从云端拉取页面内容，存入 localStorage 后重新渲染 */
+function loadContentFromCloud(callback){
+  if(!cloudEnabled()){ if(callback) callback(false); return; }
+  fetch('https://api.github.com/gists/'+window.CLOUD.GIST_ID, {cache:'no-store'})
+    .then(function(r){ if(!r.ok) throw r; return r.json(); })
+    .then(function(data){
+      var f = data && data.files && data.files[PAGE_CONTENT_FILE];
+      if(!f){ if(callback) callback(false); return; }
+      try{
+        var obj = JSON.parse(f.content || '{}');
+        if(obj && typeof obj === 'object'){
+          /* 存入 localStorage（覆盖本机） */
+          if(obj.message) localStorage.setItem(CONTENT_KEY, JSON.stringify({
+            message: obj.message,
+            spirit: obj.spirit || deepCopy(DEFAULT_CONTENT.spirit),
+            quotes: obj.quotes || deepCopy(DEFAULT_CONTENT.quotes)
+          }));
+          if(Array.isArray(obj.teachers) && obj.teachers.length){
+            localStorage.setItem('nanwu_admin_teachers_v1', JSON.stringify(obj.teachers));
+          }
+          renderMessage();
+          renderSpirit();
+          renderQuotes();
+          renderTeachers();
+          if(callback) callback(true);
+          return;
+        }
+      }catch(e){}
+      if(callback) callback(false);
+    })
+    .catch(function(){ if(callback) callback(false); });
+}
+
+/* 把页面内容同步到云端 Gist */
+function saveContentToCloud(callback){
+  if(!cloudEnabled()){ if(callback) callback(false); return; }
+  var c = getContent();
+  var payload = {
+    message: c.message,
+    spirit: c.spirit,
+    quotes: c.quotes,
+    teachers: getTeachers()
+  };
+  var files = {};
+  files[PAGE_CONTENT_FILE] = { content: JSON.stringify(payload) };
+  fetch('https://api.github.com/gists/'+window.CLOUD.GIST_ID, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': 'token '+window.CLOUD.GITHUB_TOKEN,
+      'Content-Type': 'application/json',
+      'Accept': 'application/vnd.github+json'
+    },
+    body: JSON.stringify({ files: files })
+  })
+  .then(function(r){
+    if(r.ok && callback) callback(true);
+    else if(callback) callback(false);
+  })
+  .catch(function(){ if(callback) callback(false); });
+}
+
+/* 获取当前内容（云端 > 管理员本机 > 默认） */
+function getContent(){
+  try{
+    var saved = JSON.parse(localStorage.getItem(CONTENT_KEY) || 'null');
+    if(saved && typeof saved === 'object'){
+      return {
+        message: saved.message || deepCopy(DEFAULT_CONTENT.message),
+        spirit: Array.isArray(saved.spirit) ? saved.spirit : deepCopy(DEFAULT_CONTENT.spirit),
+        quotes: Array.isArray(saved.quotes) ? saved.quotes : deepCopy(DEFAULT_CONTENT.quotes)
+      };
+    }
+  }catch(e){}
+  return deepCopy(DEFAULT_CONTENT);
+}
+
+/* 保存内容 */
+function saveContent(c){
+  localStorage.setItem(CONTENT_KEY, JSON.stringify(c));
+}
+
+/* 转义HTML */
+function esc(s){
+  return String(s).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+
+/* 渲染节日寄语 */
+function renderMessage(){
+  var c = getContent();
+  var box = document.getElementById('letterBox');
+  if(!box) return;
+  var html = '<h3 class="cal">'+esc(c.message.title)+'</h3>';
+  c.message.paragraphs.forEach(function(p){ html += '<p>'+esc(p)+'</p>'; });
+  box.innerHTML = html;
+}
+
+/* 渲染教育家精神 */
+function renderSpirit(){
+  var c = getContent();
+  var grid = document.getElementById('spiritGrid');
+  if(!grid) return;
+  grid.innerHTML = c.spirit.map(function(s){
+    return '<div class="spirit-card reveal">'
+      + '<div class="num cal">'+esc(s.num)+'</div>'
+      + '<div class="s-words cal">'+esc(s.words).replace(/\n/g,'<br>')+'</div>'
+      + '<div class="s-dim"><span>'+esc(s.dim)+'</span></div>'
+      + '<p class="s-desc">'+esc(s.desc)+'</p>'
+      + '</div>';
+  }).join('');
+}
+
+/* 渲染师恩名句 */
+function renderQuotes(){
+  var c = getContent();
+  var grid = document.getElementById('quoteGrid');
+  if(!grid) return;
+  grid.innerHTML = c.quotes.map(function(q){
+    return '<div class="quote-card reveal">'
+      + '<div class="icon">'+esc(q.icon)+'</div>'
+      + '<div class="words cal">'+esc(q.words).replace(/\n/g,'<br>')+'</div>'
+      + '<div class="from">—— '+esc(q.from)+'</div>'
+      + '</div>';
+  }).join('');
+}
+
+/* 初始渲染（先用本地内容，再从云端拉取覆盖） */
+renderMessage();
+renderSpirit();
+renderQuotes();
+loadContentFromCloud();  /* 从云端拉取管理员发布的最新内容 */
+
 /* ---------- 7位老师数据（姓名 / 学科 / 称号 / 简介 / 配图提示词） ---------- */
 var TEACHERS = [
-  {name:'王雅琴', subject:'语文', title:'高级教师 · 语文教研组长',
+  {name:'林颖', subject:'语文', title:'',
    intro:'她的课堂有诗词里的风花雪月，也有字里行间的人生天地，教学生以文字立心。',
    prompt:'一位中国女语文教师手捧书本在教室里讲解古诗词，黑板上写着古诗，窗外有竹影，温馨手绘水彩插画风格，暖色调'},
-  {name:'李建国', subject:'数学', title:'高级教师 · 数学教研组长',
+  {name:'黄嘉馨', subject:'数学', title:'',
    intro:'一块黑板写满逻辑与热爱，他总说：把复杂讲简单，才是真本事。',
    prompt:'一位中国男数学教师站在黑板前，黑板上写满数学公式与几何图形，手持圆规，温馨手绘水彩插画风格，暖色调'},
-  {name:'陈晓梅', subject:'英语', title:'一级教师',
+  {name:'林学蕴', subject:'英语', title:'',
    intro:'笑声朗朗的英语课堂，让每个孩子都敢开口、爱表达，把世界带进教室。',
    prompt:'一位中国女英语教师在英语课堂上微笑讲课，墙上有英文字母卡片，手持单词卡，温馨手绘水彩插画风格，暖色调'},
-  {name:'刘志远', subject:'物理', title:'高级教师',
+  {name:'李胤明', subject:'物理', title:'班主任',
    intro:'三棱镜里折射出彩虹，他用一个个实验告诉学生：物理，是用来理解世界的。',
    prompt:'一位中国男物理教师在实验室演示三棱镜分光实验，桌上有光学仪器，阳光透过窗户，温馨手绘水彩插画风格，暖色调'},
-  {name:'张丽华', subject:'化学', title:'一级教师',
+  {name:'何圆圆', subject:'化学', title:'',
    intro:'试管里的奇妙变化是她的魔法，严谨与温柔并存，带学生探索微观世界。',
    prompt:'一位中国女化学教师在化学实验室指导实验，手持试管，架上有彩色试剂瓶，温馨手绘水彩插画风格，暖色调'},
-  {name:'赵雪莹', subject:'生物', title:'一级教师',
+  {name:'方蔓婷', subject:'道法', title:'',
    intro:'从一片叶脉到一整个春天，她带学生看见生命的秩序与美好。',
    prompt:'一位中国女生物教师在生物课上讲解植物标本，讲台上有绿植与显微镜，温馨手绘水彩插画风格，暖色调'},
-  {name:'孙文博', subject:'历史', title:'高级教师 · 历史教研组长',
+  {name:'邱旭呤', subject:'历史', title:'',
    intro:'讲台上他谈古论今，让泛黄的岁月变得热血滚烫。',
    prompt:'一位中国男历史教师在历史课上讲解，身后是中国古代朝代时间轴与历史挂图，温馨手绘水彩插画风格，暖色调'}
 ];
 
-/* 渲染教师卡片 */
-(function(){
+/* 渲染教师卡片（支持管理员编辑后重新渲染） */
+function renderTeachers(){
   var grid = document.getElementById('teacherGrid');
-  grid.innerHTML = TEACHERS.map(function(t){
-    return '<div class="t-card reveal" data-name="' + t.name + '" data-subject="' + t.subject + '" data-title="' + t.title + '" data-intro="' + t.intro + '">'
+  if(!grid) return;
+  var teachers = getTeachers();
+  grid.innerHTML = teachers.map(function(t){
+    return '<div class="t-card reveal" data-name="' + esc(t.name) + '" data-subject="' + esc(t.subject) + '" data-title="' + esc(t.title) + '" data-intro="' + esc(t.intro) + '">'
       + '<div class="ph">'
-      +   '<img alt="' + t.name + '老师" data-prompt="' + t.prompt + '">'
+      +   '<img alt="' + esc(t.name) + '老师" data-prompt="' + esc(t.prompt) + '">'
       +   '<div class="ph-fb"><b class="cal">师</b><small>师者如光</small></div>'
       + '</div>'
       + '<div class="body">'
-      +   '<div class="t-name"><h4 class="cal">' + t.name + ' 老师</h4>'
-      +   '<span class="subj-badge">' + t.subject + '</span></div>'
-      +   '<div class="t-title">' + t.title + '</div>'
-      +   '<p>' + t.intro + '</p>'
+      +   '<div class="t-name"><h4 class="cal">' + esc(t.name) + ' 老师</h4>'
+      +   '<span class="subj-badge">' + esc(t.subject) + '</span></div>'
+      +   '<div class="t-title">' + esc(t.title) + '</div>'
+      +   '<p>' + esc(t.intro) + '</p>'
       + '</div><div class="glare"></div></div>';
   }).join('');
   grid.querySelectorAll('img').forEach(function(img){
@@ -1079,7 +1390,21 @@ var TEACHERS = [
     smartImgLoad(img, imgUrl(img.dataset.prompt, 'portrait_4_3'));
   });
   grid.querySelectorAll('.t-card').forEach(bindTilt);
-})();
+}
+
+/* 获取教师数据（管理员修改 > 默认） */
+function getTeachers(){
+  try{
+    var saved = JSON.parse(localStorage.getItem('nanwu_admin_teachers_v1') || 'null');
+    if(Array.isArray(saved) && saved.length){ return saved; }
+  }catch(e){}
+  return deepCopy(TEACHERS);
+}
+function saveTeachers(arr){
+  localStorage.setItem('nanwu_admin_teachers_v1', JSON.stringify(arr));
+}
+
+renderTeachers();
 
 /* ---------- 飘落花瓣 ---------- */
 (function(){
@@ -1151,122 +1476,773 @@ var TEACHERS = [
   document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
 })();
 
-/* ---------- 祝福墙 ---------- */
+/* ---------- 祝福墙（GitHub Gist 云端同步 + 仅本人可删改） ---------- */
 (function(){
+  /* ====== 云端配置（读取全局，祝福墙用 blessings.json） ====== */
+  var GIST_ID = window.CLOUD.GIST_ID;
+  var GITHUB_TOKEN = window.CLOUD.GITHUB_TOKEN;
+  /* 两个都留空时，退化为纯本机 localStorage 模式（换设备看不到） */
+
   var KEY = 'nanwu_teacher_day_blessings_v1';          /* 本机新写的祝福 */
-  var HKEY = 'nanwu_teacher_day_blessings_hidden_v1';  /* 本机删除掉的内置祝福（仅对本机隐藏） */
+  var HKEY = 'nanwu_teacher_day_blessings_hidden_v1';  /* 本机隐藏掉的祝福（仅本机生效） */
+  var CKEY = 'nanwu_teacher_day_blessings_cloud_v1';   /* 云端祝福的本机缓存 */
+  var UID = 'nanwu_teacher_day_device_id';             /* 本机设备匿名 ID */
+  var GIST_FILE = 'blessings.json';
+  var cloudOn = !!(GIST_ID && GITHUB_TOKEN);
+  /* 管理员模式使用全局 window.isAdmin，祝福墙与暖心细节共用 */
+
+  /* 每台设备一个匿名 ID，用来标识"这条祝福是谁发的" */
+  var MY_ID = read(UID, '');
+  if(!MY_ID){ MY_ID = 'd_' + Math.random().toString(36).slice(2) + Date.now().toString(36); write(UID, MY_ID); }
+
   var flowers = ['🌷','🌸','🌺','💐','🌹','🏵️'];
-  /* 内置祝福：直接写在代码里，所有扫码打开的访客都能看到。
-     站长收集到同学们新写的祝福后，往这个数组里加一条即可全站生效 */
+  /* 内置祝福：预设示范，所有访客都能看到，且不可被删改 */
   var seed = [
-    {name:'初三（2）班全体同学', to:'全体任课老师', msg:'谢谢老师们陪我们熬过的每一个晚自习、讲过的每一道题。中考我们一定全力以赴，教师节快乐！'},
-    {name:'高一（5）班 小林', to:'班主任王老师', msg:'粉笔灰染白了您的鬓角，却点亮了我们的前程。老师，您辛苦了，我们爱您！'},
-    {name:'校学生会', to:'全体教职工', msg:'愿每一位老师笑容常伴、身体健康，桃李满天下，春晖遍四方！'},
-    {name:'毕业多年的老校友', to:'南武的恩师们', msg:'走出校园才明白，当年您的唠叨都是最深的牵挂。遥祝恩师们节日快乐，一切安好！'},
-    {name:'初一（1）班 朵朵', to:'语文李老师', msg:'您读课文的声音特别好听，让我爱上了语文。祝您像康乃馨一样美丽！'},
-    {name:'一位家长', to:'南武实验学校全体老师', msg:'把孩子交给你们，我们放心。感谢你们的责任心与爱心，祝老师们节日快乐！'}
+    {name:'初三（1）班全体同学', to:'全体任课老师', msg:'谢谢老师们陪我们熬过的每一个晚自习、讲过的每一道题。中考我们一定全力以赴，教师节快乐！'},
+    {name:'初三（1）班 唐岗睿', to:'班主任李老师', msg:'粉笔灰染白了您的鬓角，却点亮了我们的前程。老师，您辛苦了，我们爱您！'}
   ];
+
   function read(k, fb){
     try{ var v=JSON.parse(localStorage.getItem(k)); return v==null?fb:v; }
     catch(e){ return fb; }
   }
-  function keyOf(b){ return (b.name||'')+'｜'+(b.to||'')+'｜'+(b.msg||''); }
-
-  var local = read(KEY, []);
-  var hidden = read(HKEY, []);
-  var hiddenSet = {};
-  hidden.forEach(function(k){ hiddenSet[k]=1; });
-  /* 清理测试留言：我方测试昵称，以及纯键盘乱码（如 jhjkl、asdf） */
-  local = local.filter(function(b){
+  function write(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+  function keyOf(b){ return b.id || ((b.name||'')+'｜'+(b.to||'')+'｜'+(b.msg||'')); }
+  function isMine(b){ return b && b.authorId === MY_ID; }
+  function genId(){ return 'b_' + Math.random().toString(36).slice(2) + Date.now().toString(36); }
+  function isTest(b){
     var n = String(b.name||'').trim();
-    if(n === '测试同学') return false;
-    if(/^[a-z]{2,6}$/i.test(n) && /^[hjkluiopasdfgmn ]+$/i.test(n)) return false;
-    return true;
-  });
-  /* 自愈：旧版本曾把内置祝福存进本机存储，如今它们已写进代码，
-     从本机剔除，避免“删了又复活”和顺序错乱 */
-  var seedSet = {};
-  seed.forEach(function(b){ seedSet[keyOf(b)] = 1; });
-  local = local.filter(function(b){ return !seedSet[keyOf(b)]; });
-  try{ localStorage.setItem(KEY, JSON.stringify(local)); }catch(err){}
-
-  /* 合并列表：本机新写的排前面，代码内置的紧随其后（去重、跳过本机删过的） */
-  var list = [], seen = {};
-  function push(b){ var k=keyOf(b); if(seen[k]||hiddenSet[k]) return; seen[k]=1; list.push(b); }
-  local.forEach(push);
-  seed.forEach(push);
-  var localCount = local.length; /* 渲染列表中前 localCount 条来自本机 */
-
-  function render(){
-    var grid = document.getElementById('wallGrid');
-    grid.innerHTML = list.map(function(b,i){
-      return '<div class="blessing">'
-        + '<button type="button" class="del" title="删除这条祝福" aria-label="删除这条祝福">×</button>'
-        + '<span class="flower">'+flowers[i%flowers.length]+'</span>'
-        + '<div class="msg">'+escapeHtml(b.msg)+(b.to?'<br><small style="color:#b8352e">—— 致 '+escapeHtml(b.to)+'</small>':'')+'</div>'
-        + '<div class="who">— '+escapeHtml(b.name)+'</div>'
-        + '</div>';
-    }).join('');
+    if(n === '测试同学') return true;
+    if(/^[a-z]{2,6}$/i.test(n) && /^[hjkluiopasdfgmn ]+$/i.test(n)) return true;
+    return false;
   }
   function escapeHtml(s){
     return String(s).replace(/[&<>"']/g,function(c){
       return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
     });
   }
-  render();
-  /* 删除单条祝福：本机写的直接删除；内置的仅在本机隐藏，其他访客不受影响 */
-  document.getElementById('wallGrid').addEventListener('click', function(e){
-    var btn = e.target.closest('.del');
-    if(!btn) return;
-    var card = btn.closest('.blessing');
-    var idx = Array.prototype.indexOf.call(this.children, card);
-    if(idx < 0) return;
-    if(idx < localCount){
-      local.splice(idx,1); localCount--;
-      try{ localStorage.setItem(KEY, JSON.stringify(local)); }catch(err){}
-    }else{
-      var k = keyOf(list[idx]);
-      hiddenSet[k]=1; hidden.push(k);
-      try{ localStorage.setItem(HKEY, JSON.stringify(hidden)); }catch(err){}
-    }
-    list.splice(idx,1);
+
+  var local = read(KEY, []).filter(function(b){ return !isTest(b); });
+  var hidden = read(HKEY, []);
+  var hiddenSet = {};
+  hidden.forEach(function(k){ hiddenSet[k]=1; });
+  var cloud = read(CKEY, []);
+
+  /* 自愈：剔除混入本机的内置祝福 */
+  var seedSet = {};
+  seed.forEach(function(b){ seedSet[keyOf(b)] = 1; });
+  local = local.filter(function(b){ return !seedSet[keyOf(b)]; });
+  cloud = cloud.filter(function(b){ return !seedSet[keyOf(b)] && !isTest(b); });
+  /* 给旧数据补 id，保证去重稳定 */
+  local.forEach(function(b){ if(!b.id) b.id = genId(); });
+  write(KEY, local);
+
+  var list = [], seen = {};
+  function push(b){ var k=keyOf(b); if(seen[k]||hiddenSet[k]) return; seen[k]=1; list.push(b); }
+  function rebuild(){
+    list = []; seen = {};
+    cloud.forEach(push);   /* 云端（大家写的）排最前 */
+    local.forEach(push);   /* 本机刚写的（可能还没同步上去）紧随 */
+    seed.forEach(push);    /* 内置示范在最后 */
     render();
+  }
+
+  function render(){
+    var grid = document.getElementById('wallGrid');
+    if(!grid) return;
+    grid.innerHTML = list.map(function(b,i){
+      var mine = isMine(b);
+      var canEdit = mine || window.isAdmin;  /* 管理员可编辑所有祝福 */
+      var btns = canEdit
+        ? '<button type="button" class="edit" title="修改这条祝福" aria-label="修改">✎</button>'
+        + '<button type="button" class="del" title="删除这条祝福" aria-label="删除">×</button>'
+        : '';
+      return '<div class="blessing'+(mine?' mine':'')+'" data-idx="'+i+'">'
+        + btns
+        + '<span class="flower">'+flowers[i%flowers.length]+'</span>'
+        + '<div class="msg">'+escapeHtml(b.msg)+(b.to?'<br><small style="color:#b8352e">—— 致 '+escapeHtml(b.to)+'</small>':'')+'</div>'
+        + '<div class="who">— '+escapeHtml(b.name)+'</div>'
+        + '</div>';
+    }).join('');
+  }
+
+  /* ---- 云端：拉取所有人的祝福 ---- */
+  function loadCloud(){
+    if(!cloudOn) return;
+    fetch('https://api.github.com/gists/'+GIST_ID, {cache:'no-store'})
+      .then(function(r){ if(!r.ok) throw r; return r.json(); })
+      .then(function(data){
+        var f = data && data.files && data.files[GIST_FILE];
+        if(!f) return;
+        try{
+          var arr = JSON.parse(f.content || '[]');
+          if(Array.isArray(arr)){
+            cloud = arr.filter(function(b){ return b && !isTest(b) && !seedSet[keyOf(b)]; });
+            cloud.forEach(function(b){ if(!b.id) b.id = genId(); });
+            write(CKEY, cloud);
+            rebuild();
+          }
+        }catch(e){}
+      })
+      .catch(function(){ /* 网络失败，用本机缓存 */ });
+  }
+
+  /* ---- 云端：把合并后的祝福写回 Gist ---- */
+  var saving = false;
+  function saveCloud(){
+    if(!cloudOn || saving) return;
+    saving = true;
+    /* 合并云端 + 本机，去重（保留作者标记和 id） */
+    var merged = [], ms = {};
+    cloud.concat(local).forEach(function(b){
+      var k = keyOf(b);
+      if(!ms[k] && !seedSet[k]){ ms[k]=1; merged.push(b); }
+    });
+    fetch('https://api.github.com/gists/'+GIST_ID, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': 'token '+GITHUB_TOKEN,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.github+json'
+      },
+      body: JSON.stringify({ files: (function(){ var o={}; o[GIST_FILE]={content:JSON.stringify(merged)}; return o; })() })
+    })
+    .then(function(r){
+      if(r.ok){ cloud = merged; write(CKEY, cloud); }
+    })
+    .catch(function(){})
+    .then(function(){ saving = false; });
+  }
+
+  rebuild();
+  loadCloud();
+
+  /* 点击事件：删除 / 编辑（本人或管理员可操作） */
+  function canManage(b){ return isMine(b) || window.isAdmin; }
+  document.getElementById('wallGrid').addEventListener('click', function(e){
+    /* ---- 删除祝福 ---- */
+    var delBtn = e.target.closest('.del');
+    if(delBtn){
+      var card = delBtn.closest('.blessing');
+      var idx = parseInt(card.getAttribute('data-idx'), 10);
+      if(isNaN(idx) || !canManage(list[idx])) return;
+      if(!confirm('确定删除这条祝福吗？')) return;
+      var k = keyOf(list[idx]);
+      /* 从本机删除 */
+      local = local.filter(function(b){ return keyOf(b) !== k; });
+      write(KEY, local);
+      /* 从云端缓存删除（真正从 Gist 删掉，别人也看不到了） */
+      cloud = cloud.filter(function(b){ return keyOf(b) !== k; });
+      write(CKEY, cloud);
+      list.splice(idx, 1);
+      render();
+      saveCloud();
+      return;
+    }
+    /* ---- 编辑祝福 ---- */
+    var editBtn = e.target.closest('.edit');
+    if(editBtn){
+      var card2 = editBtn.closest('.blessing');
+      var idx2 = parseInt(card2.getAttribute('data-idx'), 10);
+      if(isNaN(idx2) || !canManage(list[idx2])) return;
+      enterEdit(card2, idx2);
+      return;
+    }
+    /* ---- 保存编辑 ---- */
+    var saveBtn = e.target.closest('.save');
+    if(saveBtn){
+      var card3 = saveBtn.closest('.blessing');
+      var idx3 = parseInt(card3.getAttribute('data-idx'), 10);
+      if(isNaN(idx3) || !canManage(list[idx3])) return;
+      var b = list[idx3];
+      var newName = card3.querySelector('.ef-name').value.trim();
+      var newTo = card3.querySelector('.ef-to').value.trim();
+      var newMsg = card3.querySelector('.ef-msg').value.trim();
+      if(!newName || !newMsg){ alert('昵称和祝福语不能为空'); return; }
+      b.name = newName; b.to = newTo; b.msg = newMsg;
+      write(KEY, local);
+      write(CKEY, cloud);
+      render();
+      saveCloud();
+      return;
+    }
+    /* ---- 取消编辑 ---- */
+    if(e.target.closest('.cancel')){
+      render();
+    }
   });
+
+  /* 进入编辑模式：把卡片内容换成表单 */
+  function enterEdit(card, idx){
+    var b = list[idx];
+    card.innerHTML =
+        '<span class="flower" style="top:-12px;right:18px;font-size:1.6rem">✏️</span>'
+      + '<div class="edit-form">'
+      + '<input class="ef-name" placeholder="你的昵称 / 班级" maxlength="20" value="'+escapeHtml(b.name)+'">'
+      + '<input class="ef-to" placeholder="送给哪位老师" maxlength="30" value="'+escapeHtml(b.to||'')+'">'
+      + '<textarea class="ef-msg" placeholder="写下你的祝福语……" maxlength="200">'+escapeHtml(b.msg)+'</textarea>'
+      + '<div class="edit-actions"><button type="button" class="cancel">取消</button><button type="button" class="save">保存</button></div>'
+      + '</div>';
+    card.querySelector('.ef-msg').focus();
+  }
+
+  /* 提交：先本机立即显示，再异步同步到云端 */
   document.getElementById('blessingForm').addEventListener('submit', function(e){
     e.preventDefault();
     var name = document.getElementById('bName').value.trim();
     var to = document.getElementById('bTo').value.trim();
     var msg = document.getElementById('bMsg').value.trim();
     if(!name || !msg) return;
-    var b = {name:name, to:to, msg:msg};
-    local.unshift(b); localCount++;
-    try{ localStorage.setItem(KEY, JSON.stringify(local)); }catch(err){}
+    var b = { id:genId(), authorId:MY_ID, name:name, to:to, msg:msg };
+    local.unshift(b);
+    write(KEY, local);
     list.unshift(b);
     render();
+    saveCloud();
     e.target.reset();
     var first = document.querySelector('.blessing');
     if(first) first.scrollIntoView({behavior:'smooth', block:'center'});
   });
-  /* 站长工具：一键导出本机全部祝福，微信发给站长即可收录进代码、全站可见 */
-  var exp = document.getElementById('exportBlessings');
-  if(exp){
-    exp.addEventListener('click', function(){
-      var txt = '';
-      try{ txt = JSON.stringify(list); }catch(err){ return; }
-      function ok(){
-        var t = exp.textContent;
-        exp.textContent = '已复制 ✓ 现在去微信发给站长';
-        setTimeout(function(){ exp.textContent = t; }, 2500);
+
+  /* ====== 管理员入口：连续点击页脚"唐岗睿"3次 → 输密码 → 管理员模式 ====== */
+  var ADMIN_PWD = '2024';
+  var clickCount = 0, clickTimer = null;
+  var trigger = document.getElementById('adminTrigger');
+  var modal = document.getElementById('adminModal');
+  var pwdInput = document.getElementById('adminPwd');
+  var errBox = document.getElementById('adminErr');
+
+  if(trigger){
+    trigger.addEventListener('click', function(){
+      clickCount++;
+      clearTimeout(clickTimer);
+      if(window.isAdmin){
+        /* 已在管理员模式：三连击 → 提示；单击（停顿后）→ 退出 */
+        if(clickCount >= 3){
+          clickCount = 0;
+          alert('你已进入管理员模式');
+        }else{
+          clickTimer = setTimeout(function(){
+            if(clickCount === 1){ exitAdmin(); }
+            clickCount = 0;
+          }, 400);
+        }
+      }else{
+        /* 非管理员模式：三连击弹密码框 */
+        if(clickCount >= 3){
+          clickCount = 0;
+          openAdminModal();
+        }else{
+          clickTimer = setTimeout(function(){ clickCount = 0; }, 1200);
+        }
       }
-      function fallback(){
-        var w = prompt('长按全选复制下面文字，微信发给站长（唐岗睿），收录后所有人都能看到：', txt);
-        if(w !== null) ok();
-      }
-      if(navigator.clipboard && navigator.clipboard.writeText){
-        navigator.clipboard.writeText(txt).then(ok, fallback);
-      }else{ fallback(); }
     });
   }
+
+  function openAdminModal(){
+    if(!modal) return;
+    errBox.textContent = '';
+    pwdInput.value = '';
+    modal.classList.add('show');
+    setTimeout(function(){ pwdInput.focus(); }, 100);
+  }
+  function closeAdminModal(){
+    if(modal) modal.classList.remove('show');
+  }
+  function enterAdmin(){
+    window.isAdmin = true;
+    document.body.classList.add('admin-on');
+    render();
+    document.dispatchEvent(new CustomEvent('adminModeChange'));
+    if(window.showAdminEditButtons) window.showAdminEditButtons();
+    closeAdminModal();
+    alert('✅ 已进入管理员模式\n现在可以编辑页面各板块内容、祝福和暖心细节。');
+  }
+  function exitAdmin(){
+    /* 退出前弹窗确认保存 */
+    if(window.confirmExitAdmin){
+      window.confirmExitAdmin();
+      return;
+    }
+    window.isAdmin = false;
+    document.body.classList.remove('admin-on');
+    render();
+    if(window.hideAdminEditButtons) window.hideAdminEditButtons();
+    document.dispatchEvent(new CustomEvent('adminModeChange'));
+  }
+
+  document.getElementById('adminOk').addEventListener('click', function(){
+    if(pwdInput.value === ADMIN_PWD){ enterAdmin(); }
+    else{ errBox.textContent = '密码错误，请重试'; pwdInput.value = ''; pwdInput.focus(); }
+  });
+  document.getElementById('adminCancel').addEventListener('click', closeAdminModal);
+  pwdInput.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){ document.getElementById('adminOk').click(); }
+    if(e.key === 'Escape'){ closeAdminModal(); }
+  });
+  modal.addEventListener('click', function(e){ if(e.target === modal) closeAdminModal(); });
+})();
+
+/* ---------- 教师育人暖心细节（云端同步 + 仅本人可删改） ---------- */
+console.log('[调试] 即将执行暖心细节IIFE');
+(function(){
+  console.log('[暖心细节] IIFE 开始执行');
+  var GIST_ID = window.CLOUD.GIST_ID;
+  var GITHUB_TOKEN = window.CLOUD.GITHUB_TOKEN;
+  var cloudOn = !!(GIST_ID && GITHUB_TOKEN);
+  var GIST_FILE = 'details.json';
+
+  var LKEY = 'nanwu_teacher_day_details_v1';        /* 本机写的暖心细节 */
+  var CKEY = 'nanwu_teacher_day_details_cloud_v1';  /* 云端缓存 */
+  var UID = 'nanwu_teacher_day_device_id';          /* 复用设备匿名 ID */
+  var hearts = ['💝','💖','💕','💗','💓','💞'];
+
+  function read(k, fb){ try{ var v=JSON.parse(localStorage.getItem(k)); return v==null?fb:v; }catch(e){ return fb; } }
+  function write(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+  function keyOf(d){ return d.id || ((d.cls||'')+'｜'+(d.to||'')+'｜'+(d.detail||'')); }
+  function isMine(d){ return d && d.authorId === MY_ID; }
+  function genId(){ return 'dt_' + Math.random().toString(36).slice(2) + Date.now().toString(36); }
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g,function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  var MY_ID = read(UID, '');
+  if(!MY_ID){ MY_ID = 'd_' + Math.random().toString(36).slice(2) + Date.now().toString(36); write(UID, MY_ID); }
+
+  var local = read(LKEY, []);
+  var cloud = read(CKEY, []);
+  local.forEach(function(d){ if(!d.id) d.id = genId(); });
+  write(LKEY, local);
+
+  var list = [], seen = {};
+  function push(d){ var k=keyOf(d); if(seen[k]) return; seen[k]=1; list.push(d); }
+  function rebuild(){
+    list = []; seen = {};
+    cloud.forEach(push);
+    local.forEach(push);
+    render();
+  }
+
+  function render(){
+    var grid = document.getElementById('detailGrid');
+    if(!grid) return;
+    grid.innerHTML = list.map(function(d,i){
+      var mine = isMine(d);
+      var canEdit = mine || window.isAdmin;
+      var btns = canEdit
+        ? '<button type="button" class="edit" title="修改" aria-label="修改">✎</button>'
+        + '<button type="button" class="del" title="删除" aria-label="删除">×</button>'
+        : '';
+      return '<div class="detail-card'+(mine?' mine':'')+'" data-idx="'+i+'">'
+        + btns
+        + '<span class="d-heart">'+hearts[i%hearts.length]+'</span>'
+        + '<div class="d-detail">'+escapeHtml(d.detail)+'</div>'
+        + '<div class="d-to">致 '+escapeHtml(d.to)+'</div>'
+        + '<div class="d-class">— '+escapeHtml(d.cls)+'</div>'
+        + '</div>';
+    }).join('') || '<p style="text-align:center;color:#a0857d;padding:30px 0">还没有暖心细节，快来分享第一个吧 💝</p>';
+  }
+
+  /* 云端拉取 */
+  function loadCloud(){
+    if(!cloudOn) return;
+    fetch('https://api.github.com/gists/'+GIST_ID, {cache:'no-store'})
+      .then(function(r){ if(!r.ok) throw r; return r.json(); })
+      .then(function(data){
+        var f = data && data.files && data.files[GIST_FILE];
+        if(!f) return;
+        try{
+          var arr = JSON.parse(f.content || '[]');
+          if(Array.isArray(arr)){
+            cloud = arr.filter(function(d){ return d && d.detail; });
+            cloud.forEach(function(d){ if(!d.id) d.id = genId(); });
+            write(CKEY, cloud);
+            rebuild();
+          }
+        }catch(e){}
+      })
+      .catch(function(){});
+  }
+
+  /* 云端写回 */
+  var saving = false;
+  function saveCloud(){
+    if(!cloudOn || saving) return;
+    saving = true;
+    var merged = [], ms = {};
+    cloud.concat(local).forEach(function(d){
+      var k = keyOf(d);
+      if(!ms[k]){ ms[k]=1; merged.push(d); }
+    });
+    fetch('https://api.github.com/gists/'+GIST_ID, {
+      method: 'PATCH',
+      headers: { 'Authorization':'token '+GITHUB_TOKEN, 'Content-Type':'application/json', 'Accept':'application/vnd.github+json' },
+      body: JSON.stringify({ files: (function(){ var o={}; o[GIST_FILE]={content:JSON.stringify(merged)}; return o; })() })
+    })
+    .then(function(r){ if(r.ok){ cloud = merged; write(CKEY, cloud); } })
+    .catch(function(){})
+    .then(function(){ saving = false; });
+  }
+
+  rebuild();
+  loadCloud();
+
+  /* 管理员模式切换时刷新 */
+  document.addEventListener('adminModeChange', render);
+
+  /* 点击：删除 / 编辑 */
+  function canManage(d){ return isMine(d) || window.isAdmin; }
+  document.getElementById('detailGrid').addEventListener('click', function(e){
+    var delBtn = e.target.closest('.del');
+    if(delBtn){
+      var card = delBtn.closest('.detail-card');
+      var idx = parseInt(card.getAttribute('data-idx'), 10);
+      if(isNaN(idx) || !canManage(list[idx])) return;
+      if(!confirm('确定删除这条暖心细节吗？')) return;
+      var k = keyOf(list[idx]);
+      local = local.filter(function(d){ return keyOf(d) !== k; });
+      write(LKEY, local);
+      cloud = cloud.filter(function(d){ return keyOf(d) !== k; });
+      write(CKEY, cloud);
+      list.splice(idx, 1);
+      render();
+      saveCloud();
+      return;
+    }
+    var editBtn = e.target.closest('.edit');
+    if(editBtn){
+      var card2 = editBtn.closest('.detail-card');
+      var idx2 = parseInt(card2.getAttribute('data-idx'), 10);
+      if(isNaN(idx2) || !canManage(list[idx2])) return;
+      enterEdit(card2, idx2);
+      return;
+    }
+    var saveBtn = e.target.closest('.save');
+    if(saveBtn){
+      var card3 = saveBtn.closest('.detail-card');
+      var idx3 = parseInt(card3.getAttribute('data-idx'), 10);
+      if(isNaN(idx3) || !canManage(list[idx3])) return;
+      var d = list[idx3];
+      var newCls = card3.querySelector('.ef-cls').value.trim();
+      var newTo = card3.querySelector('.ef-to').value.trim();
+      var newDetail = card3.querySelector('.ef-detail').value.trim();
+      if(!newCls || !newTo || !newDetail){ alert('班级、老师和暖心细节都不能为空'); return; }
+      d.cls = newCls; d.to = newTo; d.detail = newDetail;
+      write(LKEY, local);
+      write(CKEY, cloud);
+      render();
+      saveCloud();
+      return;
+    }
+    if(e.target.closest('.cancel')){ render(); }
+  });
+
+  function enterEdit(card, idx){
+    var d = list[idx];
+    card.innerHTML =
+        '<span class="d-heart" style="top:-12px;right:18px;font-size:1.5rem">✏️</span>'
+      + '<div class="edit-form">'
+      + '<input class="ef-cls" placeholder="你的班级" maxlength="20" value="'+escapeHtml(d.cls)+'">'
+      + '<input class="ef-to" placeholder="写给哪位老师" maxlength="30" value="'+escapeHtml(d.to)+'">'
+      + '<textarea class="ef-detail" placeholder="暖心细节……" maxlength="300">'+escapeHtml(d.detail)+'</textarea>'
+      + '<div class="edit-actions"><button type="button" class="cancel">取消</button><button type="button" class="save">保存</button></div>'
+      + '</div>';
+    card.querySelector('.ef-detail').focus();
+  }
+
+  /* 提交表单 */
+  var detailFormEl = document.getElementById('detailForm');
+  detailFormEl.addEventListener('submit', function(e){
+    e.preventDefault();
+    var cls = document.getElementById('dClass').value.trim();
+    var to = document.getElementById('dTo').value.trim();
+    var detail = document.getElementById('dDetail').value.trim();
+    if(!cls || !to || !detail) return;
+    var d = { id:genId(), authorId:MY_ID, cls:cls, to:to, detail:detail };
+    local.unshift(d);
+    write(LKEY, local);
+    list.unshift(d);
+    render();
+    saveCloud();
+    e.target.reset();
+    var first = document.querySelector('.detail-card');
+    if(first) first.scrollIntoView({behavior:'smooth', block:'center'});
+  });
+})();
+
+/* ============================================================
+   管理员编辑面板：节日寄语 / 教育家精神 / 师恩名句 / 教师简介
+   ============================================================ */
+(function(){
+  /* ---- 编辑按钮 ---- */
+  window.showAdminEditButtons = function(){
+    addEditBtn('message','节日寄语');
+    addEditBtn('spirit','教育家精神');
+    addEditBtn('quotes','师恩名句');
+    addEditBtn('teachers','教师简介');
+  };
+  window.hideAdminEditButtons = function(){
+    document.querySelectorAll('.admin-edit-btn').forEach(function(b){ b.remove(); });
+  };
+  function addEditBtn(sectionId, label){
+    var sec = document.getElementById(sectionId);
+    if(!sec) return;
+    var head = sec.querySelector('.sec-head');
+    if(!head) return;
+    var btn = document.createElement('button');
+    btn.className = 'admin-edit-btn';
+    btn.textContent = '✎ 编辑' + label;
+    btn.onclick = function(){ openEditor(sectionId); };
+    head.appendChild(btn);
+  }
+
+  /* ---- 编辑面板 DOM ---- */
+  var panel = document.createElement('div');
+  panel.id = 'adminEditor';
+  panel.innerHTML =
+    '<div class="ae-box">'
+    + '<div class="ae-header"><h3 class="cal">内容编辑</h3><button type="button" class="ae-close">×</button></div>'
+    + '<div class="ae-tabs">'
+    +   '<button data-tab="message" class="active">节日寄语</button>'
+    +   '<button data-tab="spirit">教育家精神</button>'
+    +   '<button data-tab="quotes">师恩名句</button>'
+    +   '<button data-tab="teachers">教师简介</button>'
+    + '</div>'
+    + '<div class="ae-body"></div>'
+    + '<div class="ae-footer">'
+    +   '<button type="button" class="ae-reset">恢复默认</button>'
+    +   '<button type="button" class="ae-save">保存修改</button>'
+    +   '<button type="button" class="ae-cancel">取消</button>'
+    + '</div>'
+    + '</div>';
+  document.body.appendChild(panel);
+
+  var currentTab = 'message';
+  var tempData = {};  /* 编辑中的临时数据 */
+
+  function openEditor(tab){
+    currentTab = tab || 'message';
+    panel.querySelectorAll('.ae-tabs button').forEach(function(b){
+      b.classList.toggle('active', b.dataset.tab === currentTab);
+    });
+    loadTempData();
+    renderTab();
+    panel.classList.add('show');
+  }
+  function closeEditor(){ panel.classList.remove('show'); }
+
+  panel.querySelector('.ae-close').onclick = closeEditor;
+  panel.querySelector('.ae-cancel').onclick = closeEditor;
+  panel.onclick = function(e){ if(e.target === panel) closeEditor(); };
+
+  panel.querySelectorAll('.ae-tabs button').forEach(function(b){
+    b.onclick = function(){
+      /* 切换 tab 时先保存当前 tab 的临时数据 */
+      collectTempData();
+      currentTab = b.dataset.tab;
+      panel.querySelectorAll('.ae-tabs button').forEach(function(x){ x.classList.toggle('active', x === b); });
+      loadTempData();
+      renderTab();
+    };
+  });
+
+  /* 加载临时数据 */
+  function loadTempData(){
+    var c = getContent();
+    tempData.message = deepCopy(c.message);
+    tempData.spirit = deepCopy(c.spirit);
+    tempData.quotes = deepCopy(c.quotes);
+    tempData.teachers = getTeachers();
+  }
+
+  /* 渲染当前 tab 的编辑表单 */
+  function renderTab(){
+    var body = panel.querySelector('.ae-body');
+    var html = '';
+    if(currentTab === 'message'){
+      html += '<label>慰问信标题</label><input type="text" class="f-msg-title" value="'+esc(tempData.message.title)+'">';
+      html += '<label>段落内容（每段一行）</label>';
+      tempData.message.paragraphs.forEach(function(p,i){
+        html += '<div class="ae-row"><textarea class="f-msg-p" rows="3">'+esc(p)+'</textarea>'
+             + '<button type="button" class="ae-del" data-i="'+i+'">删除</button></div>';
+      });
+      html += '<button type="button" class="ae-add">+ 添加段落</button>';
+    } else if(currentTab === 'spirit'){
+      html += '<p class="ae-tip">每个卡片：序号、文字（用换行分两行）、维度、描述</p>';
+      tempData.spirit.forEach(function(s,i){
+        html += '<div class="ae-card"><div class="ae-card-head">卡片 '+(i+1)+'<button type="button" class="ae-del" data-i="'+i+'">删除</button></div>'
+             + '<label>序号</label><input type="text" class="f-num" value="'+esc(s.num)+'">'
+             + '<label>文字（换行分两行）</label><textarea class="f-words" rows="2">'+esc(s.words)+'</textarea>'
+             + '<label>维度</label><input type="text" class="f-dim" value="'+esc(s.dim)+'">'
+             + '<label>描述</label><textarea class="f-desc" rows="2">'+esc(s.desc)+'</textarea></div>';
+      });
+      html += '<button type="button" class="ae-add">+ 添加卡片</button>';
+    } else if(currentTab === 'quotes'){
+      html += '<p class="ae-tip">每个名句：图标 emoji、文字（换行分两行）、出处</p>';
+      tempData.quotes.forEach(function(q,i){
+        html += '<div class="ae-card"><div class="ae-card-head">名句 '+(i+1)+'<button type="button" class="ae-del" data-i="'+i+'">删除</button></div>'
+             + '<label>图标</label><input type="text" class="f-icon" value="'+esc(q.icon)+'" maxlength="4">'
+             + '<label>文字（换行分两行）</label><textarea class="f-words" rows="2">'+esc(q.words)+'</textarea>'
+             + '<label>出处</label><input type="text" class="f-from" value="'+esc(q.from)+'"></div>';
+      });
+      html += '<button type="button" class="ae-add">+ 添加名句</button>';
+    } else if(currentTab === 'teachers'){
+      html += '<p class="ae-tip">每位老师：姓名、学科、称号、简介、配图提示词</p>';
+      tempData.teachers.forEach(function(t,i){
+        html += '<div class="ae-card"><div class="ae-card-head">教师 '+(i+1)+'<button type="button" class="ae-del" data-i="'+i+'">删除</button></div>'
+             + '<label>姓名</label><input type="text" class="f-name" value="'+esc(t.name)+'">'
+             + '<label>学科</label><input type="text" class="f-subject" value="'+esc(t.subject)+'">'
+             + '<label>称号</label><input type="text" class="f-title" value="'+esc(t.title)+'">'
+             + '<label>简介</label><textarea class="f-intro" rows="2">'+esc(t.intro)+'</textarea>'
+             + '<label>配图提示词</label><textarea class="f-prompt" rows="2">'+esc(t.prompt)+'</textarea></div>';
+      });
+      html += '<button type="button" class="ae-add">+ 添加教师</button>';
+    }
+    body.innerHTML = html;
+    bindTabEvents();
+  }
+
+  /* 绑定 tab 内的增删事件 */
+  function bindTabEvents(){
+    panel.querySelectorAll('.ae-del').forEach(function(b){
+      b.onclick = function(){
+        var i = parseInt(b.dataset.i,10);
+        if(currentTab==='message'){ tempData.message.paragraphs.splice(i,1); }
+        else if(currentTab==='spirit'){ tempData.spirit.splice(i,1); }
+        else if(currentTab==='quotes'){ tempData.quotes.splice(i,1); }
+        else if(currentTab==='teachers'){ tempData.teachers.splice(i,1); }
+        renderTab();
+      };
+    });
+    var addBtn = panel.querySelector('.ae-add');
+    if(addBtn) addBtn.onclick = function(){
+      if(currentTab==='message'){ tempData.message.paragraphs.push('新段落内容'); }
+      else if(currentTab==='spirit'){ tempData.spirit.push({num:'新',words:'文字第一行\n文字第二行',dim:'维度',desc:'描述内容'}); }
+      else if(currentTab==='quotes'){ tempData.quotes.push({icon:'✨',words:'名句第一行\n名句第二行',from:'出处'}); }
+      else if(currentTab==='teachers'){ tempData.teachers.push({name:'新老师',subject:'学科',title:'',intro:'简介内容',prompt:'一位中国教师在教室讲课，温馨手绘水彩风格，暖色调'}); }
+      renderTab();
+    };
+  }
+
+  /* 收集当前 tab 的表单数据到 tempData */
+  function collectTempData(){
+    var body = panel.querySelector('.ae-body');
+    if(currentTab==='message'){
+      var titleEl = body.querySelector('.f-msg-title');
+      if(titleEl) tempData.message.title = titleEl.value.trim() || '慰问信标题';
+      tempData.message.paragraphs = Array.from(body.querySelectorAll('.f-msg-p')).map(function(t){ return t.value; });
+    } else if(currentTab==='spirit'){
+      var cards = body.querySelectorAll('.ae-card');
+      tempData.spirit = Array.from(cards).map(function(c){
+        return {
+          num: c.querySelector('.f-num').value.trim() || '一',
+          words: c.querySelector('.f-words').value,
+          dim: c.querySelector('.f-dim').value.trim() || '维度',
+          desc: c.querySelector('.f-desc').value
+        };
+      });
+    } else if(currentTab==='quotes'){
+      var qcards = body.querySelectorAll('.ae-card');
+      tempData.quotes = Array.from(qcards).map(function(c){
+        return {
+          icon: c.querySelector('.f-icon').value.trim() || '✨',
+          words: c.querySelector('.f-words').value,
+          from: c.querySelector('.f-from').value.trim() || '出处'
+        };
+      });
+    } else if(currentTab==='teachers'){
+      var tcards = body.querySelectorAll('.ae-card');
+      tempData.teachers = Array.from(tcards).map(function(c){
+        return {
+          name: c.querySelector('.f-name').value.trim() || '老师',
+          subject: c.querySelector('.f-subject').value.trim() || '学科',
+          title: c.querySelector('.f-title').value,
+          intro: c.querySelector('.f-intro').value,
+          prompt: c.querySelector('.f-prompt').value
+        };
+      });
+    }
+  }
+
+  /* 保存 */
+  panel.querySelector('.ae-save').onclick = function(){
+    collectTempData();
+    saveContent({
+      message: tempData.message,
+      spirit: tempData.spirit,
+      quotes: tempData.quotes
+    });
+    saveTeachers(tempData.teachers);
+    renderMessage();
+    renderSpirit();
+    renderQuotes();
+    renderTeachers();
+    closeEditor();
+    alert('✅ 内容已保存');
+  };
+
+  /* 恢复默认 */
+  panel.querySelector('.ae-reset').onclick = function(){
+    if(!confirm('确定恢复当前板块为默认内容吗？此操作不可撤销。')) return;
+    if(currentTab==='message'){ localStorage.removeItem(CONTENT_KEY); tempData.message = deepCopy(DEFAULT_CONTENT.message); }
+    else if(currentTab==='spirit'){ localStorage.removeItem(CONTENT_KEY); tempData.spirit = deepCopy(DEFAULT_CONTENT.spirit); }
+    else if(currentTab==='quotes'){ localStorage.removeItem(CONTENT_KEY); tempData.quotes = deepCopy(DEFAULT_CONTENT.quotes); }
+    else if(currentTab==='teachers'){ localStorage.removeItem('nanwu_admin_teachers_v1'); tempData.teachers = deepCopy(TEACHERS); }
+    renderTab();
+    renderMessage(); renderSpirit(); renderQuotes(); renderTeachers();
+  };
+
+  /* ---- 退出管理员确认弹窗 ---- */
+  var exitModal = document.createElement('div');
+  exitModal.id = 'exitConfirm';
+  exitModal.innerHTML =
+    '<div class="ec-box">'
+    + '<h4 class="cal">确认保存并退出？</h4>'
+    + '<p>你的修改已自动保存在本机。<br>点击「保存并退出」退出管理员模式。</p>'
+    + '<div class="ec-actions">'
+    + '<button type="button" class="ec-cancel">继续编辑</button>'
+    + '<button type="button" class="ec-ok">保存并退出</button>'
+    + '</div></div>';
+  document.body.appendChild(exitModal);
+
+  window.confirmExitAdmin = function(){
+    exitModal.classList.add('show');
+  };
+  exitModal.querySelector('.ec-cancel').onclick = function(){ exitModal.classList.remove('show'); };
+  exitModal.querySelector('.ec-ok').onclick = function(){
+    var btn = exitModal.querySelector('.ec-ok');
+    btn.disabled = true;
+    btn.textContent = '正在同步到云端...';
+    /* 先把所有修改同步到云端 Gist */
+    saveContentToCloud(function(ok){
+      if(ok){
+        alert('✅ 内容已同步到云端，其他设备刷新即可看到');
+      }else if(!cloudEnabled()){
+        alert('⚠️ 未配置云端（GIST_ID/TOKEN 为空），修改仅保存在本机');
+      }else{
+        alert('⚠️ 云端同步失败，请检查网络或 Gist 配置。修改已保存在本机。');
+      }
+      exitModal.classList.remove('show');
+      btn.disabled = false;
+      btn.textContent = '保存并退出';
+      window.isAdmin = false;
+      document.body.classList.remove('admin-on');
+      if(window.hideAdminEditButtons) window.hideAdminEditButtons();
+      document.dispatchEvent(new CustomEvent('adminModeChange'));
+    });
+  };
+  exitModal.addEventListener('click', function(e){ if(e.target === exitModal) exitModal.classList.remove('show'); });
+
+  /* ---- 关闭网页时确认 ---- */
+  window.addEventListener('beforeunload', function(e){
+    if(window.isAdmin){
+      e.preventDefault();
+      e.returnValue = '你正在管理员模式中，确定要离开吗？';
+      return e.returnValue;
+    }
+  });
 })();
 
 /* ---------- 打字机祝福语 ---------- */
