@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>广州市南武实验学校 · 庆祝第42个教师节</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="preconnect" href="https://fonts.loli.net">
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
+<!-- 字体异步加载，不阻塞首屏绘制（网络慢时开场画面也能立即显示） -->
+<!-- 使用国内镜像 loli.net：Google Fonts 官方源在大陆手机/微信内无法加载 -->
+<link rel="preload" as="style" href="https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&display=swap"></noscript>
+<style>
+  :root{
+    --red:#b8352e;
+    --red-deep:#8c2a24;
+    --red-light:#d95d4f;
+    --gold:#e8b64c;
+    --gold-deep:#c9962e;
+    --cream:#fdf7ee;
+    --cream-deep:#f7ecdb;
+    --pink:#e78ba0;
+    --ink:#43302b;
+    --white:#ffffff;
+    --shadow:0 14px 40px rgba(140,42,36,.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+  body{
+    font-family:"Noto Serif SC","Songti SC","SimSun",serif;
+    color:var(--ink);
+    background:var(--cream);
+    overflow-x:hidden;
+    /* 禁止点击/拖动出现蓝色选中块 */
+    -webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;
+    /* 禁止手机长按弹出复制/粘贴菜单 */
+    -webkit-touch-callout:none;
+  }
+  /* 表单输入区域例外：可正常输入、选中、长按粘贴 */
+  input,textarea,[contenteditable]{
+    -webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;
+    -webkit-touch-callout:default;
+  }
+  /* 图片不允许被拖拽（避免桌面端拖出鬼影图） */
+  /* pointer-events:none：鼠标/触摸不再直接命中图片，
+     可禁用 Chrome/Edge 自带的“识图提问”等悬停按钮；
+     所有点击交互均绑定在父元素上，功能不受影响 */
+  img{-webkit-user-drag:none;user-drag:none;pointer-events:none}
+  .cal{font-family:"Ma Shan Zheng","KaiTi","STKaiti",serif}
+
+  /* ---------- 飘落花瓣 ---------- */
+  #petals{position:fixed;inset:0;pointer-events:none;z-index:99;overflow:hidden}
+  .petal{
+    position:absolute;top:-6vh;
+    width:16px;height:16px;
+    background:radial-gradient(circle at 30% 30%,#f6b8c4,var(--pink));
+    border-radius:150% 0 150% 0;
+    opacity:.8;
+    animation:fall linear infinite;
+  }
+  @keyframes fall{
+    0%{transform:translate3d(0,-6vh,0) rotate(0deg)}
+    100%{transform:translate3d(var(--drift),108vh,0) rotate(720deg)}
+  }
+
+  /* ---------- 导航 ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 6vw;
+    background:rgba(253,247,238,.85);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(184,53,46,.12);
+    transition:box-shadow .3s;
+  }
+  nav.scrolled{box-shadow:0 4px 20px rgba(140,42,36,.1)}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.08rem;color:var(--red-deep);white-space:nowrap}
+  .logo .seal{
+    width:42px;height:42px;border-radius:50%;
+    object-fit:cover;flex:none;
+    display:block;
+    box-shadow:0 3px 10px rgba(140,42,36,.28);
+    border:1.5px solid rgba(255,255,255,.9);
+  }
+  .nav-links{display:flex;gap:28px;list-style:none}
+  .nav-links a{
+    text-decoration:none;color:var(--ink);font-size:.95rem;font-weight:600;
+    position:relative;padding:4px 0;
+  }
+  .nav-links a::after{
+    content:"";position:absolute;left:0;bottom:0;height:2px;width:0;
+    background:var(--red);transition:width .3s;
+  }
+  .nav-links a:hover::after{width:100%}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height:100vh;
+    padding:120px 6vw 60px;
+    display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;
+    background:
+      radial-gradient(ellipse at 85% 15%,rgba(232,182,76,.18),transparent 50%),
+      radial-gradient(ellipse at 10% 85%,rgba(231,139,160,.15),transparent 50%);
+  }
+  .badge{
+    display:inline-block;
+    padding:7px 20px;border-radius:999px;
+    background:linear-gradient(135deg,var(--red),var(--red-light));
+    color:#fff;font-size:.9rem;font-weight:600;letter-spacing:2px;
+    box-shadow:0 6px 18px rgba(184,53,46,.3);
+    margin-bottom:26px;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem,6vw,4.6rem);
+    line-height:1.25;color:var(--red-deep);
+    margin-bottom:18px;
+  }
+  .hero h1 .gold{
+    color:var(--gold-deep);
+    text-shadow:1px 1px 0 rgba(255,255,255,.6);
+  }
+  .hero .sub{font-size:1.15rem;color:#7a5c54;margin-bottom:34px;line-height:1.9}
+  .hero .sub b{color:var(--red)}
+
+  .countdown{display:flex;gap:14px;margin-bottom:38px;flex-wrap:wrap}
+  .cd-item{
+    background:var(--white);border-radius:14px;
+    padding:14px 18px;min-width:82px;text-align:center;
+    box-shadow:var(--shadow);
+    border:1px solid rgba(184,53,46,.08);
+  }
+  .cd-item .num{font-size:2rem;font-weight:900;color:var(--red);line-height:1}
+  .cd-item .unit{font-size:.8rem;color:#9c8078;margin-top:6px;letter-spacing:2px}
+  .cd-label{width:100%;font-size:.9rem;color:#9c8078;letter-spacing:1px}
+
+  .hero-btns{display:flex;gap:16px;flex-wrap:wrap}
+  .btn{
+    display:inline-block;padding:14px 34px;border-radius:999px;
+    font-size:1rem;font-weight:700;text-decoration:none;cursor:pointer;
+    border:2px solid var(--red);transition:all .3s;font-family:inherit;
+  }
+  .btn-primary{background:var(--red);color:#fff;box-shadow:0 8px 22px rgba(184,53,46,.35)}
+  .btn-primary:hover{background:var(--red-deep);transform:translateY(-3px)}
+  .btn-ghost{background:transparent;color:var(--red)}
+  .btn-ghost:hover{background:var(--red);color:#fff;transform:translateY(-3px)}
+
+  .hero-img{position:relative}
+  .hero-img img{
+    width:100%;border-radius:24px;display:block;
+    box-shadow:0 24px 60px rgba(140,42,36,.25);
+    border:6px solid #fff;
+  }
+  .hero-img::before{
+    content:"";position:absolute;inset:-18px;z-index:-1;
+    border:2px dashed var(--gold);border-radius:30px;opacity:.6;
+  }
+  .hero-tag{
+    position:absolute;left:-24px;bottom:36px;
+    background:var(--gold);color:var(--red-deep);
+    padding:12px 22px;border-radius:14px;
+    font-size:1.1rem;transform:rotate(-4deg);
+    box-shadow:0 8px 20px rgba(201,150,46,.4);
+  }
+
+  /* ---------- 通用板块 ---------- */
+  section{padding:90px 6vw}
+  .sec-head{text-align:center;margin-bottom:56px}
+  .sec-head .en{color:var(--gold-deep);letter-spacing:6px;font-size:.85rem;font-weight:700;text-transform:uppercase}
+  .sec-head h2{
+    font-size:clamp(1.9rem,4vw,2.8rem);color:var(--red-deep);margin:10px 0 14px;
+  }
+  .sec-head .deco{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--gold-deep)}
+  .sec-head .deco::before,.sec-head .deco::after{
+    content:"";width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--gold));
+  }
+  .sec-head .deco::after{background:linear-gradient(90deg,var(--gold),transparent)}
+  .sec-head p{color:#8a6b63;margin-top:14px;font-size:1.02rem}
+
+  .reveal{opacity:0;transform:translateY(38px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.visible{opacity:1;transform:none}
+
+  /* ---------- 校长寄语 ---------- */
+  #message{background:linear-gradient(180deg,var(--cream),var(--cream-deep))}
+  .letter{
+    max-width:860px;margin:0 auto;
+    background:var(--white);border-radius:22px;padding:56px 64px;
+    box-shadow:var(--shadow);position:relative;
+    border-top:6px solid var(--red);
+  }
+  .letter::before{
+    content:"❝";position:absolute;top:18px;left:30px;
+    font-size:5rem;color:var(--cream-deep);font-family:Georgia,serif;line-height:1;
+  }
+  .letter h3{font-size:1.5rem;color:var(--red-deep);margin-bottom:22px;text-align:center}
+  .letter p{font-size:1.06rem;line-height:2.2;color:#5d4741;text-indent:2em;margin-bottom:14px}
+  .letter .sign{text-align:right;margin-top:26px;color:var(--red-deep);font-weight:700;text-indent:0}
+  .letter .sign small{display:block;font-weight:400;color:#9c8078;margin-top:4px}
+
+  /* ---------- 名言卡片 ---------- */
+  .quote-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:26px;max-width:1200px;margin:0 auto;
+  }
+  .quote-card{
+    background:var(--white);border-radius:18px;padding:36px 28px;
+    box-shadow:var(--shadow);text-align:center;
+    border:1px solid rgba(184,53,46,.07);
+    transition:transform .35s,box-shadow .35s;
+  }
+  .quote-card:hover{transform:translateY(-8px);box-shadow:0 22px 48px rgba(140,42,36,.18)}
+  .quote-card .icon{font-size:2.2rem;margin-bottom:16px}
+  .quote-card .words{
+    font-size:1.25rem;color:var(--red-deep);line-height:1.9;margin-bottom:16px;
+  }
+  .quote-card .from{font-size:.92rem;color:#a0857d;letter-spacing:1px}
+
+  /* ---------- 教育家精神 ---------- */
+  #spirit{background:linear-gradient(180deg,var(--cream),var(--cream-deep))}
+  .spirit-lead{
+    max-width:760px;margin:0 auto 42px;text-align:center;
+    font-size:1.05rem;line-height:2;color:#6b5148;
+  }
+  .spirit-lead .source{display:block;margin-top:10px;font-size:.86rem;color:#a0857d;letter-spacing:1px}
+  .spirit-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:26px;max-width:1200px;margin:0 auto;
+  }
+  .spirit-card{
+    position:relative;background:var(--white);border-radius:18px;
+    padding:40px 30px 32px;box-shadow:var(--shadow);
+    border:1px solid rgba(184,53,46,.07);border-top:4px solid var(--red);
+    transition:transform .35s,box-shadow .35s;overflow:hidden;
+  }
+  .spirit-card::after{
+    content:"";position:absolute;right:-34px;bottom:-34px;width:110px;height:110px;
+    border-radius:50%;background:radial-gradient(circle,rgba(232,182,76,.16),transparent 70%);
+  }
+  .spirit-card:hover{transform:translateY(-8px);box-shadow:0 22px 48px rgba(140,42,36,.18)}
+  .spirit-card .num{
+    width:52px;height:52px;border-radius:50%;margin:0 auto 18px;
+    display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--red),var(--red-deep));
+    color:var(--gold);font-family:"Ma Shan Zheng",serif;font-size:1.5rem;
+    box-shadow:0 8px 20px rgba(184,53,46,.3);
+  }
+  .spirit-card .s-words{
+    font-size:1.32rem;color:var(--red-deep);line-height:1.75;text-align:center;
+    letter-spacing:2px;margin-bottom:10px;
+  }
+  .spirit-card .s-dim{
+    text-align:center;margin-bottom:14px;
+  }
+  .spirit-card .s-dim span{
+    display:inline-block;font-size:.86rem;letter-spacing:3px;color:var(--gold-deep);
+    border:1px solid rgba(232,182,76,.55);border-radius:99px;padding:3px 16px;
+    background:rgba(232,182,76,.08);
+  }
+  .spirit-card .s-desc{
+    font-size:.95rem;line-height:1.9;color:#6b5148;text-align:center;text-indent:0;
+  }
+
+  /* ---------- 教师风采 ---------- */
+  #teachers{background:linear-gradient(180deg,var(--cream-deep),var(--cream))}
+  .teacher-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;max-width:1200px;margin:0 auto;
+  }
+  .t-card{
+    background:var(--white);border-radius:18px;overflow:hidden;
+    box-shadow:var(--shadow);transition:transform .35s;
+  }
+  .t-card:hover{transform:translateY(-8px)}
+  .t-card .ph{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--cream-deep)}
+  .t-card .ph img{width:100%;height:100%;object-fit:cover;transition:transform .6s,opacity .5s;opacity:0}
+  .t-card:hover img{transform:scale(1.06)}
+  .t-card .ph::after{
+    content:"教师节快乐";position:absolute;right:14px;top:14px;
+    background:var(--red);color:var(--gold);
+    font-size:.85rem;padding:5px 14px;border-radius:999px;letter-spacing:2px;
+  }
+  .t-card .body{padding:20px 22px}
+  .t-name{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+  .t-card h4{font-size:1.15rem;color:var(--red-deep);white-space:nowrap}
+  .subj-badge{
+    flex:none;font-size:.78rem;font-weight:700;color:var(--red);
+    background:var(--cream-deep);border:1px solid rgba(184,53,46,.25);
+    padding:3px 12px;border-radius:999px;white-space:nowrap;
+  }
+  .t-title{font-size:.83rem;color:var(--gold-deep);font-weight:700;margin-bottom:8px;letter-spacing:.5px}
+  .t-card p{font-size:.9rem;color:#8a6b63;line-height:1.75}
+  .ph-fb{
+    position:absolute;inset:0;z-index:2;
+    background:
+      radial-gradient(circle at 50% 38%,rgba(232,182,76,.18),transparent 60%),
+      linear-gradient(135deg,#d95d4f,var(--red-deep));
+    display:grid;place-items:center;align-content:center;gap:6px;
+    color:var(--gold);
+  }
+  .ph-fb b{font-size:3.4rem;line-height:1;text-shadow:0 2px 8px rgba(0,0,0,.18)}
+  .ph-fb small{font-family:"Noto Serif SC",serif;font-size:.82rem;letter-spacing:3px;color:rgba(253,247,238,.85)}
+  .grid-note{text-align:center;color:#a0857d;font-size:.9rem;margin-top:36px;letter-spacing:1px}
+
+  /* ---------- 祝福墙 ---------- */
+  .wall-form{
+    max-width:760px;margin:0 auto 50px;
+    background:var(--white);border-radius:20px;padding:36px 40px;
+    box-shadow:var(--shadow);
+  }
+  .wall-form .row{display:grid;grid-template-columns:200px 1fr;gap:18px;margin-bottom:18px}
+  .wall-form input,.wall-form textarea{
+    width:100%;padding:13px 16px;border:1.5px solid #e8d8c8;border-radius:12px;
+    font-family:inherit;font-size:1rem;color:var(--ink);background:var(--cream);
+    outline:none;transition:border-color .3s;resize:vertical;
+  }
+  .wall-form input:focus,.wall-form textarea:focus{border-color:var(--red)}
+  .wall-form textarea{min-height:110px}
+  .wall-form .submit-row{text-align:center}
+  .wall-form button{
+    padding:13px 46px;font-size:1.05rem;font-weight:700;color:#fff;
+    background:linear-gradient(135deg,var(--red),var(--red-light));
+    border:none;border-radius:999px;cursor:pointer;font-family:inherit;
+    box-shadow:0 8px 22px rgba(184,53,46,.35);transition:transform .3s;
+  }
+  .wall-form button:hover{transform:translateY(-3px)}
+
+  .wall-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    gap:22px;max-width:1200px;margin:0 auto;
+  }
+  .blessing{
+    background:var(--white);border-radius:16px;padding:26px;
+    box-shadow:var(--shadow);position:relative;
+    border-left:5px solid var(--gold);
+    animation:pop .5s ease;
+  }
+  @keyframes pop{from{opacity:0;transform:scale(.9) translateY(16px)}to{opacity:1;transform:none}}
+  .blessing .msg{font-size:1rem;line-height:2;color:#5d4741;margin-bottom:16px}
+  .blessing .who{text-align:right;font-size:.9rem;color:var(--red-deep);font-weight:700}
+  .blessing .flower{position:absolute;top:-12px;right:18px;font-size:1.6rem}
+  .blessing .del{
+    position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;
+    border:none;background:rgba(184,53,46,.08);color:#b8352e;font-size:1rem;line-height:1;
+    cursor:pointer;opacity:0;transition:opacity .25s,background .25s,color .25s;
+    display:grid;place-items:center;z-index:3;font-family:inherit;
+  }
+  .blessing:hover .del{opacity:1}
+  .blessing .del:hover{background:var(--red);color:#fff}
+
+  /* ---------- 页脚 ---------- */
+  footer{
+    background:var(--red-deep);color:#f3e3d3;
+    text-align:center;padding:54px 6vw 40px;
+  }
+  footer h3{font-size:1.7rem;color:var(--gold);margin-bottom:14px}
+  footer p{line-height:2;font-size:.95rem;opacity:.85}
+  footer .line{width:80px;height:2px;background:var(--gold);margin:22px auto;opacity:.5}
+  footer small{display:block;opacity:.6;font-size:.82rem;line-height:2}
+  .wall-export{
+    display:block;margin:28px auto 0;padding:9px 20px;font-size:.8rem;color:#a0857d;
+    background:transparent;border:1px dashed #d8c3b2;border-radius:999px;cursor:pointer;
+    font-family:inherit;letter-spacing:1px;transition:color .25s,border-color .25s;
+  }
+  .wall-export:hover{color:var(--red);border-color:var(--red)}
+
+  /* ---------- 口令门（仅公网部署时显示） ---------- */
+  #gate{position:fixed;inset:0;z-index:400;display:none;align-items:center;justify-content:center;
+    background:radial-gradient(120% 90% at 50% 0%,#fdf3ec 0%,#f6e4d8 58%,#efcdd0 100%)}
+  #gate.show{display:flex}
+  .gate-card{background:#fffdf8;border:1px solid #e8d9c5;border-radius:18px;
+    box-shadow:0 18px 50px rgba(140,42,36,.14);padding:32px 28px 24px;width:min(320px,86vw);text-align:center}
+  .gate-logo{width:64px;height:64px;border-radius:50%;object-fit:cover;box-shadow:0 4px 14px rgba(184,53,46,.25)}
+  .gate-title{font-size:1.22rem;color:var(--red-deep);margin-top:12px;letter-spacing:2px}
+  .gate-sub{font-size:.82rem;color:#a0857d;margin-top:6px;letter-spacing:1px}
+  #gateInput{width:100%;box-sizing:border-box;margin-top:18px;padding:11px 14px;font-size:1rem;text-align:center;
+    border:1.5px solid #e0cdb8;border-radius:10px;background:#fff;outline:none;color:#5a3f38;font-family:inherit}
+  #gateInput:focus{border-color:var(--red)}
+  #gateBtn{margin-top:14px;width:100%;padding:11px 0;font-size:.95rem;letter-spacing:6px;color:#fff;
+    background:linear-gradient(135deg,var(--red),var(--red-deep));border:none;border-radius:10px;cursor:pointer;font-family:inherit}
+  #gateBtn:active{transform:translateY(1px)}
+  .gate-err{min-height:1.3em;margin-top:10px;font-size:.8rem;color:#c0392b}
+  .gate-tip{font-size:.72rem;color:#b9a394}
+  .gate-card.shake{animation:gateShake .4s}
+  @keyframes gateShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+
+  /* ---------- 高级增强：进度条 / 光效 / 玻璃拟态 ---------- */
+  #progressBar{
+    position:fixed;top:0;left:0;height:3px;width:0;z-index:200;
+    background:linear-gradient(90deg,var(--gold),var(--red-light),var(--gold));
+    background-size:200% 100%;animation:barShine 3s linear infinite;
+    box-shadow:0 0 12px rgba(232,182,76,.55);
+  }
+  @keyframes barShine{to{background-position:200% 0}}
+
+  #glow{
+    position:fixed;left:0;top:0;width:380px;height:380px;border-radius:50%;
+    pointer-events:none;z-index:120;opacity:0;transition:opacity .5s;
+    background:radial-gradient(circle,rgba(240,197,110,.12),rgba(231,139,160,.10) 45%,transparent 70%);
+  }
+  @media(pointer:coarse){#glow{display:none!important}}
+
+  /* Hero：流光光斑 + 金色光尘 */
+  .hero{position:relative;overflow:hidden}
+  #dust{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+  .blob{position:absolute;z-index:0;border-radius:50%;filter:blur(90px);pointer-events:none}
+  .b1{width:440px;height:440px;top:-130px;left:-110px;opacity:.55;
+      background:radial-gradient(circle,rgba(232,182,76,.55),transparent 65%);
+      animation:blobA 16s ease-in-out infinite alternate}
+  .b2{width:380px;height:380px;bottom:-120px;right:6%;opacity:.5;
+      background:radial-gradient(circle,rgba(231,139,160,.5),transparent 65%);
+      animation:blobB 19s ease-in-out infinite alternate}
+  .b3{width:320px;height:320px;top:28%;left:56%;opacity:.4;
+      background:radial-gradient(circle,rgba(217,93,79,.4),transparent 65%);
+      animation:blobA 23s ease-in-out infinite alternate-reverse}
+  @keyframes blobA{to{transform:translate(70px,50px) scale(1.18)}}
+  @keyframes blobB{to{transform:translate(-60px,-70px) scale(.88)}}
+  .hero-text{position:relative;z-index:2}
+  .hero-img{z-index:2}
+
+  .type-wrap{
+    font-size:1.3rem;font-weight:700;color:var(--red-deep);
+    margin:-14px 0 30px;min-height:1.8em;letter-spacing:2px;
+  }
+  .type-caret{display:inline-block;width:2px;height:1.15em;background:var(--red);
+    vertical-align:-0.18em;margin-left:3px;animation:caret 1s steps(1) infinite}
+  @keyframes caret{50%{opacity:0}}
+
+  /* 数据统计带（玻璃拟态 + 数字滚动） */
+  .stats-sec{padding:0 6vw 84px}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;max-width:1100px;margin:0 auto}
+  .stat{
+    background:rgba(255,255,255,.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border:1px solid rgba(184,53,46,.14);border-radius:20px;
+    padding:36px 18px 30px;text-align:center;box-shadow:var(--shadow);
+    transition:transform .35s;
+  }
+  .stat:hover{transform:translateY(-6px)}
+  .stat .num{font-size:3rem;font-weight:900;color:var(--red);line-height:1;font-variant-numeric:tabular-nums}
+  .stat .label{margin-top:12px;color:#8a6b63;font-size:.95rem;letter-spacing:3px}
+  .stats .stat:nth-child(2){transition-delay:.1s}
+  .stats .stat:nth-child(3){transition-delay:.2s}
+  .stats .stat:nth-child(4){transition-delay:.3s}
+
+  /* 标题流光 */
+  .sec-head h2{
+    background:linear-gradient(110deg,var(--red-deep) 38%,#f3cf7e 50%,var(--red-deep) 62%);
+    background-size:250% 100%;-webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;animation:shimmer 5.5s linear infinite;
+  }
+  @keyframes shimmer{to{background-position:-250% 0}}
+
+  /* 教师卡片 3D 倾斜 + 辉光 */
+  .t-card{position:relative;cursor:pointer;transform-style:preserve-3d}
+  .t-card.visible{transition:transform .18s ease,box-shadow .35s}
+  .t-card .glare{
+    position:absolute;inset:0;z-index:6;border-radius:18px;pointer-events:none;
+    opacity:0;transition:opacity .35s;
+    background:radial-gradient(380px circle at var(--gx,50%) var(--gy,50%),rgba(255,244,214,.4),transparent 62%);
+  }
+  .t-card:hover .glare{opacity:1}
+
+  /* 返回顶部（进度环） */
+  #toTop{
+    position:fixed;right:26px;bottom:28px;width:54px;height:54px;border-radius:50%;
+    z-index:150;background:#fff;border:none;cursor:pointer;
+    box-shadow:0 10px 26px rgba(140,42,36,.28);
+    display:grid;place-items:center;
+    opacity:0;visibility:hidden;transform:translateY(16px);
+    transition:opacity .35s,transform .35s,visibility .35s;
+  }
+  #toTop.show{opacity:1;visibility:visible;transform:none}
+  #toTop:hover{transform:translateY(-4px)}
+  #toTop svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+  #toTop circle{fill:none;stroke-width:3}
+  #toTop .ring-bg{stroke:rgba(184,53,46,.15)}
+  #toTop .ring{stroke:var(--red);stroke-linecap:round;stroke-dasharray:139;stroke-dashoffset:139}
+  #toTop .arrow{color:var(--red);font-size:1.15rem;font-weight:900;line-height:1}
+
+  /* 大图 Lightbox */
+  #lightbox{
+    position:fixed;inset:0;z-index:300;
+    background:rgba(28,10,8,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    display:grid;place-items:center;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;
+  }
+  #lightbox.open{opacity:1;visibility:visible}
+  #lightbox figure{max-width:min(880px,90vw);width:100%;text-align:center;margin:0;transform:scale(.92) translateY(14px);transition:transform .35s}
+  #lightbox.open figure{transform:none}
+  /* 完整展示整张图片：不裁剪、不变形，按比例缩放适配屏幕 */
+  #lightbox img{
+    display:block;margin:0 auto;
+    max-width:88vw;max-height:58vh;width:auto;height:auto;
+    object-fit:contain;border-radius:18px;
+    border:5px solid rgba(255,255,255,.95);
+    box-shadow:0 30px 90px rgba(60,15,15,.45);
+  }
+  #lightbox .lb-name{font-size:1.7rem;color:#fdf7ee;margin-top:20px}
+  #lightbox .lb-sub{color:var(--gold);font-size:.95rem;letter-spacing:2px;margin:8px 0 10px}
+  #lightbox .lb-intro{color:rgba(253,247,238,.8);line-height:1.9;font-size:.98rem;max-width:640px;margin:0 auto}
+  #lightbox figure{cursor:zoom-out}
+
+  /* ---------- 点击/触摸 · 落花迸发 ---------- */
+  .burst-petal{
+    position:fixed;top:0;left:0;pointer-events:none;z-index:9997;
+    border-radius:50% 8% 50% 50%;
+    will-change:transform,opacity;
+  }
+
+  .nav-links a.active{color:var(--red)}
+  .nav-links a.active::after{width:100%}
+
+  @media(max-width:700px){
+    .stats{grid-template-columns:repeat(2,1fr);gap:14px}
+    .stat{padding:26px 12px 22px}
+    .stat .num{font-size:2.2rem}
+    .type-wrap{font-size:1.1rem}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .petal,#dust,#glow{display:none!important}
+    .blob{animation:none!important}
+  }
+
+  /* 动效克制收敛（保留“克制优雅”） */
+  .reveal{transform:translateY(28px)}
+  .quote-card:hover,.stat:hover{transform:translateY(-4px)}
+  .t-card:hover{transform:translateY(-4px)}
+
+  /* ---------- 开场弹屏 · 校徽飞入导航 ---------- */
+  #splash{
+    position:fixed;inset:0;z-index:10000;cursor:pointer;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(circle at 50% 42%, #fffaf0 0%, var(--cream) 58%, var(--cream-deep) 100%);
+  }
+  #splash .splash-inner{
+    position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:20px;
+    will-change:transform,opacity;opacity:0;
+  }
+  /* 图片就绪前整体隐藏，避免“有光环无校徽” */
+  #splash.ready .splash-inner{animation:splashFade .4s ease both}
+  .splash-logo-wrap{position:relative;width:172px;height:172px;flex:none}
+  .splash-logo-wrap .ring{
+    position:absolute;inset:-14px;border-radius:50%;border:2px solid var(--gold);
+    opacity:0;
+  }
+  #splash.ready .splash-logo-wrap .ring{animation:splashRing 1.9s ease-out infinite}
+  .splash-logo-wrap .ring.r2{animation-delay:.55s;border-color:var(--red-light)}
+  .splash-logo{
+    position:relative;z-index:2;width:172px;height:172px;border-radius:50%;object-fit:cover;
+    box-shadow:0 14px 44px rgba(184,53,46,.32);
+    opacity:0;
+  }
+  #splash.ready .splash-logo{animation:splashPop .7s cubic-bezier(.18,1.35,.35,1) both}
+  .splash-name{
+    font-size:2.1rem;font-weight:900;color:var(--red-deep);letter-spacing:4px;white-space:nowrap;
+    opacity:0;
+  }
+  #splash.ready .splash-name{animation:splashUp .7s .22s cubic-bezier(.2,.9,.3,1) both}
+  .splash-sub{
+    font-size:.95rem;color:var(--gold-deep);letter-spacing:6px;margin-top:-8px;opacity:0;
+  }
+  #splash.ready .splash-sub{animation:splashUp .7s .38s cubic-bezier(.2,.9,.3,1) both}
+  .splash-hint{
+    position:absolute;bottom:34px;left:0;right:0;text-align:center;font-size:.82rem;
+    color:rgba(67,48,43,.45);letter-spacing:3px;z-index:2;opacity:0;
+  }
+  #splash.ready .splash-hint{animation:splashUp .7s .7s ease both}
+  @keyframes splashFade{from{opacity:0}to{opacity:1}}
+  @keyframes splashPop{
+    0%{transform:scale(.35) rotate(-10deg);opacity:0;filter:blur(6px)}
+    100%{transform:scale(1) rotate(0);opacity:1;filter:blur(0)}
+  }
+  @keyframes splashRing{
+    0%{transform:scale(.62);opacity:.8}
+    100%{transform:scale(1.28);opacity:0}
+  }
+  @keyframes splashUp{
+    0%{transform:translateY(22px);opacity:0}
+    100%{transform:translateY(0);opacity:1}
+  }
+
+  /* ---------- 响应式 ---------- */
+  @media(max-width:1100px){
+    .logo{font-size:.95rem;gap:8px}
+    .logo .seal{width:38px;height:38px}
+    .nav-links{gap:20px}
+  }
+  @media(max-width:900px){
+    .hero{grid-template-columns:1fr;padding:110px 5vw 56px;text-align:center;gap:36px}
+    .hero-btns,.countdown{justify-content:center}
+    .hero-tag{left:50%;transform:translateX(-50%) rotate(-4deg)}
+    .nav-links{display:none}
+    section{padding:64px 5vw}
+    .stats-sec{padding:0 5vw 60px}
+    .letter{padding:40px 28px}
+    .spirit-grid{grid-template-columns:repeat(2,1fr)}
+    .wall-form{padding:28px 22px}
+    .wall-form .row{grid-template-columns:1fr}
+    #toTop{right:18px;bottom:20px;width:48px;height:48px}
+  }
+  @media(max-width:600px){
+    .teacher-grid,.wall-grid,.quote-grid{grid-template-columns:1fr}
+    .spirit-grid{grid-template-columns:1fr;gap:18px}
+    .spirit-card{padding:32px 24px 26px}
+    .spirit-lead{font-size:.98rem;margin-bottom:30px}
+    .stats{grid-template-columns:repeat(2,1fr);gap:12px}
+    .stat{padding:24px 10px 20px}
+    .stat .num{font-size:2.1rem}
+    .countdown{gap:10px}
+    .cd-item{min-width:64px;padding:10px 8px}
+    .cd-item .num{font-size:1.5rem}
+    .cd-item .unit{font-size:.72rem}
+    .badge{font-size:.8rem;padding:6px 16px;letter-spacing:1px}
+    .hero h1{font-size:2.5rem}
+    .hero .sub{font-size:1rem}
+    .sec-head h2{font-size:1.9rem}
+    .letter{padding:32px 22px}
+    .letter p{font-size:.98rem;text-indent:2em}
+    .wall-form{padding:22px 16px}
+    .btn{padding:12px 26px;font-size:.95rem}
+    #toTop{right:14px;bottom:16px;width:44px;height:44px}
+    /* Lightbox 手机端：完整大图 + 紧凑文字 */
+    #lightbox figure{max-width:94vw}
+    #lightbox img{max-width:92vw;max-height:46vh;border-width:3px;border-radius:14px}
+    #lightbox .lb-name{font-size:1.35rem;margin-top:14px}
+    #lightbox .lb-sub{font-size:.82rem;letter-spacing:1px}
+    #lightbox .lb-intro{font-size:.9rem;line-height:1.75}
+    .blessing .del{opacity:1}  /* 触屏无悬停，删除按钮常驻 */
+    /* 开场弹屏手机尺寸 */
+    .splash-logo-wrap{width:130px;height:130px}
+    .splash-logo{width:130px;height:130px}
+    .splash-name{font-size:1.5rem;letter-spacing:2px}
+    .splash-sub{font-size:.82rem;letter-spacing:3px}
+  }
+  @media(max-width:380px){
+    .hero h1{font-size:2.1rem}
+    .stats{gap:10px}
+    .stat .num{font-size:1.8rem}
+    .stat .label{font-size:.82rem;letter-spacing:1px}
+    .cd-item{min-width:58px;padding:8px 6px}
+    .cd-item .num{font-size:1.35rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- 口令门：仅公网部署时启用（localhost/本地打开自动跳过），防止链接外传后被陌生人打开 -->
+<div id="gate" aria-label="访问口令">
+  <div class="gate-card">
+    <img class="gate-logo" alt="校徽">
+    <div class="gate-title cal">广州市南武实验学校</div>
+    <div class="gate-sub">第42个教师节献礼 · 校内专享</div>
+    <input id="gateInput" type="text" placeholder="请输入班级口令" autocomplete="off">
+    <button id="gateBtn" type="button">进 入</button>
+    <div class="gate-err" id="gateErr"></div>
+    <div class="gate-tip">口令请向班长或老师获取</div>
+  </div>
+</div>
+
+<!-- 开场弹屏：大校徽 → 飞回左上角 -->
+<div id="splash" aria-label="开场画面">
+  <div class="splash-inner">
+    <div class="splash-logo-wrap">
+      <span class="ring"></span>
+      <span class="ring r2"></span>
+      <img class="splash-logo" src="data:image/jpeg;base64,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" alt="广州市南武实验学校校徽">
+    </div>
+    <div class="splash-name cal">广州市南武实验学校</div>
+    <div class="splash-sub">庆祝第42个教师节</div>
+  </div>
+  <div class="splash-hint">点击任意处可跳过</div>
+</div>
+
+<div id="petals"></div>
+<div id="progressBar"></div>
+<div id="glow"></div>
+
+<nav id="nav">
+  <div class="logo"><img src="data:image/jpeg;base64,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" class="seal" alt="广州市南武实验学校校徽">广州市南武实验学校</div>
+  <ul class="nav-links">
+    <li><a href="#message">节日寄语</a></li>
+    <li><a href="#spirit">教育家精神</a></li>
+    <li><a href="#quotes">师恩名句</a></li>
+    <li><a href="#teachers">教师风采</a></li>
+    <li><a href="#wall">祝福墙</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <canvas id="dust"></canvas>
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="hero-text">
+    <span class="badge">广州市南武实验学校 · 庆祝第42个教师节</span>
+    <h1 class="cal">感念师恩<br><span class="gold">桃李芬芳</span></h1>
+    <p class="sub">
+      金秋九月，丹桂飘香。<b>9月10日教师节</b>来临之际，<br>
+      让我们向每一位坚守讲台、辛勤耕耘的老师，<br>
+      道一声：老师，您辛苦了！
+    </p>
+    <p class="type-wrap"><span id="typeText"></span><span class="type-caret"></span></p>
+    <div class="countdown" id="countdown">
+      <div class="cd-item"><div class="num" id="cd-d">--</div><div class="unit">天</div></div>
+      <div class="cd-item"><div class="num" id="cd-h">--</div><div class="unit">时</div></div>
+      <div class="cd-item"><div class="num" id="cd-m">--</div><div class="unit">分</div></div>
+      <div class="cd-item"><div class="num" id="cd-s">--</div><div class="unit">秒</div></div>
+      <div class="cd-label">距离 2026年9月10日 教师节还有</div>
+    </div>
+    <div class="hero-btns">
+      <a class="btn btn-primary" href="#wall">写下我的祝福</a>
+      <a class="btn btn-ghost" href="#message">阅读节日寄语</a>
+    </div>
+  </div>
+  <div class="hero-img">
+    <img id="heroImg" alt="教师节快乐 · 老师与同学们手捧康乃馨">
+    <div class="hero-tag cal">老师，节日快乐！</div>
+  </div>
+</header>
+
+<!-- 数据统计带 -->
+<section class="stats-sec">
+  <div class="stats">
+    <div class="stat reveal"><div class="num" data-target="7">0</div><div class="label">位优秀教师</div></div>
+    <div class="stat reveal"><div class="num" data-target="42">0</div><div class="label">载师道传承</div></div>
+    <div class="stat reveal"><div class="num" data-target="418">0</div><div class="label">天在校悉心陪伴</div></div>
+    <div class="stat reveal"><div class="num" data-target="100" data-suffix="+">0</div><div class="label">个成长故事</div></div>
+  </div>
+</section>
+
+<!-- 节日寄语 -->
+<section id="message">
+  <div class="sec-head reveal">
+    <div class="en">Festival Message</div>
+    <h2 class="cal">节日寄语</h2>
+    <div class="deco">❀</div>
+  </div>
+  <div class="letter reveal">
+    <h3 class="cal">致全体教师的教师节慰问信</h3>
+    <p>金秋送爽，丹桂飘香。在硕果盈枝、礼赞师恩的美好时节，我们迎来了第42个教师节。在此，谨向默默坚守讲台、潜心立德树人的全体教师及教职工，致以最诚挚的节日问候和最崇高的敬意！老师，您辛苦了！</p>
+    <p>三尺讲台系国运，一生秉烛育新人。教育兴则国家兴，教师强则教育强。新时代新征程，我们大力弘扬心有大我、至诚报国，启智润心、因材施教，勤学笃行、求是创新，乐教爱生、甘于奉献，胸怀天下、以文化人的教育家精神。这崇高的精神，正是每一位一线教师最真实的写照。</p>
+    <p>日复一日，你们坚守育人初心、躬耕教坛。清晨迎着朝阳启智授课，深夜伏案钻研备课、批改课业、耐心答疑。课堂之上，你们传授知识、启迪智慧，为学子点亮前行的灯塔；生活之中，你们温柔陪伴、悉心呵护，用责任与大爱守护每一位学生的成长。</p>
+    <p>你们以师者立身、以德行为人师，不仅传授文化学识，更践行教育家精神，润物无声培育学生品格、涵养家国情怀。你们精益求精深耕教学，用心用情关爱学生，用平凡的坚守诠释教育担当，用无私的奉献浇灌桃李芳华。学校的每一份发展、学生的每一点进步，都凝聚着全体教师的心血与耕耘。</p>
+    <p>师者如光，薪火相传。正是一代代教师传承育人初心、弘扬教育家精神，以热爱赴使命、以匠心育新人，托举起万千学子的青春梦想。</p>
+    <p>值此佳节，衷心祝愿全体教师节日快乐、身体健康、工作顺遂、阖家安康！愿全体教师永葆教育热忱，赓续育人使命，大力弘扬教育家精神，深耕教坛、笃行不怠，以微光聚星河，用心培育新时代栋梁之才！</p>
+  </div>
+</section>
+
+<!-- 教育家精神 -->
+<section id="spirit">
+  <div class="sec-head reveal">
+    <div class="en">The Spirit of Educators</div>
+    <h2 class="cal">教育家精神</h2>
+    <div class="deco">❀</div>
+  </div>
+  <p class="spirit-lead reveal">
+    教师是立教之本、兴教之源。在教师节这个庄严而温暖的日子里，让我们共同铭记并大力弘扬中国特有的教育家精神——
+    <span class="source">—— 心有大我、至诚报国的理想信念，言为士则、行为世范的道德情操，启智润心、因材施教的育人智慧，勤学笃行、求是创新的躬耕态度，乐教爱生、甘于奉献的仁爱之心，胸怀天下、以文化人的使命担当</span>
+  </p>
+  <div class="spirit-grid">
+    <div class="spirit-card reveal">
+      <div class="num cal">一</div>
+      <div class="s-words cal">心有大我<br>至诚报国</div>
+      <div class="s-dim"><span>理想信念</span></div>
+      <p class="s-desc">把个人理想融入国家发展，以三尺讲台系家国，培养担当民族复兴大任的时代新人。</p>
+    </div>
+    <div class="spirit-card reveal">
+      <div class="num cal">二</div>
+      <div class="s-words cal">言为士则<br>行为世范</div>
+      <div class="s-dim"><span>道德情操</span></div>
+      <p class="s-desc">以身作则、以德立身，一言一行皆为学生榜样，用高尚师德照亮学生成长之路。</p>
+    </div>
+    <div class="spirit-card reveal">
+      <div class="num cal">三</div>
+      <div class="s-words cal">启智润心<br>因材施教</div>
+      <div class="s-dim"><span>育人智慧</span></div>
+      <p class="s-desc">尊重每一个孩子的不同，用智慧点亮思想、用耐心滋养心灵，让每个生命都精彩绽放。</p>
+    </div>
+    <div class="spirit-card reveal">
+      <div class="num cal">四</div>
+      <div class="s-words cal">勤学笃行<br>求是创新</div>
+      <div class="s-dim"><span>躬耕态度</span></div>
+      <p class="s-desc">终身学习、潜心治学，在教学一线精益求精、勇于探索，让课堂常讲常新。</p>
+    </div>
+    <div class="spirit-card reveal">
+      <div class="num cal">五</div>
+      <div class="s-words cal">乐教爱生<br>甘于奉献</div>
+      <div class="s-dim"><span>仁爱之心</span></div>
+      <p class="s-desc">以爱育爱、以情化人，把学生当作自己的孩子，默默守护每一段青春的成长。</p>
+    </div>
+    <div class="spirit-card reveal">
+      <div class="num cal">六</div>
+      <div class="s-words cal">胸怀天下<br>以文化人</div>
+      <div class="s-dim"><span>使命担当</span></div>
+      <p class="s-desc">传承中华文脉、拓宽国际视野，用文化的力量培根铸魂，育时代栋梁、开天下气象。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 师恩名句 -->
+<section id="quotes">
+  <div class="sec-head reveal">
+    <div class="en">Words of Gratitude</div>
+    <h2 class="cal">师恩名句</h2>
+    <div class="deco">❀</div>
+    <p>千言万语，汇成一句——谢谢您，老师</p>
+  </div>
+  <div class="quote-grid">
+    <div class="quote-card reveal">
+      <div class="icon">📖</div>
+      <div class="words cal">师者，所以<br>传道授业解惑也</div>
+      <div class="from">—— 韩愈《师说》</div>
+    </div>
+    <div class="quote-card reveal">
+      <div class="icon">🕯️</div>
+      <div class="words cal">春蚕到死丝方尽<br>蜡炬成灰泪始干</div>
+      <div class="from">—— 李商隐《无题》</div>
+    </div>
+    <div class="quote-card reveal">
+      <div class="icon">🌸</div>
+      <div class="words cal">桃李不言<br>下自成蹊</div>
+      <div class="from">—— 《史记·李将军列传》</div>
+    </div>
+    <div class="quote-card reveal">
+      <div class="icon">🍂</div>
+      <div class="words cal">落红不是无情物<br>化作春泥更护花</div>
+      <div class="from">—— 龚自珍《己亥杂诗》</div>
+    </div>
+  </div>
+</section>
+
+<!-- 教师风采 -->
+<section id="teachers">
+  <div class="sec-head reveal">
+    <div class="en">Our Teachers</div>
+    <h2 class="cal">教师风采 · 南实七师</h2>
+    <div class="deco">❀</div>
+    <p>讲台之上，是他们最美的模样 · 排名不分先后</p>
+  </div>
+  <div class="teacher-grid" id="teacherGrid"></div>
+  <p class="grid-note">— 一支粉笔书春秋，两袖清风育桃李 —</p>
+</section>
+
+<!-- 祝福墙 -->
+<section id="wall">
+  <div class="sec-head reveal">
+    <div class="en">Blessing Wall</div>
+    <h2 class="cal">祝福墙</h2>
+    <div class="deco">❀</div>
+    <p>写下你想对老师说的话，让祝福汇成花海</p>
+  </div>
+
+  <form class="wall-form reveal" id="blessingForm">
+    <div class="row">
+      <input type="text" id="bName" placeholder="你的昵称 / 班级" maxlength="20" required>
+      <input type="text" id="bTo" placeholder="送给哪位老师（如：班主任王老师）" maxlength="30">
+    </div>
+    <textarea id="bMsg" placeholder="写下你的祝福语……（例如：老师，谢谢您一直以来的鼓励，教师节快乐！）" maxlength="200" required></textarea>
+    <div class="submit-row" style="margin-top:18px">
+      <button type="submit">💐 送上祝福</button>
+    </div>
+  </form>
+
+  <div class="wall-grid" id="wallGrid"></div>
+  <button type="button" class="wall-export" id="exportBlessings">站长工具 · 导出本机祝福</button>
+</section>
+
+<footer>
+  <h3 class="cal">桃李满天下，春晖遍四方</h3>
+  <p>广州市南武实验学校 · 2026年教师节专题</p>
+  <div class="line"></div>
+  <small>谨以此页，献给每一位默默奉献的人民教师 ❤</small>
+  <small>© 本网页由2024级1班唐岗睿独立制作，版权归本人所有，仅用于广州市南武实验学校教师节主题展示，禁止修改、盗用、二次使用。</small>
+</footer>
+
+<button id="toTop" title="回到顶部" aria-label="回到顶部">
+  <svg viewBox="0 0 52 52"><circle class="ring-bg" cx="26" cy="26" r="22"></circle><circle class="ring" id="topRing" cx="26" cy="26" r="22"></circle></svg>
+  <span class="arrow">↑</span>
+</button>
+
+<div id="lightbox">
+  <figure>
+    <img alt="教师风采大图">
+    <figcaption>
+      <div class="lb-name cal"></div>
+      <div class="lb-sub"></div>
+      <p class="lb-intro"></p>
+    </figcaption>
+  </figure>
+</div>
+
+<script>
+/* ---------- 口令门：公网部署时启用，防止链接外传后被陌生人打开 ----------
+   localhost / 127.x / 192.168.x / 本地 file 打开 → 自动跳过，方便站长调试；
+   预览效果可在网址后加 ?gatetest=1 强制显示。改口令只需改下面 GATE_PASS */
+(function(){
+  var GATE_PASS = '南武42';
+  var OKKEY = 'nanwu_gate_ok_v1';
+  var host = location.hostname || '';
+  var isLocal = !host || host==='localhost' || host==='127.0.0.1'
+    || /^192\.168\./.test(host) || /^10\./.test(host) || /^172\.(1[6-9]|2\d|3[01])\./.test(host);
+  var enabled = /[?&]gatetest=1/.test(location.search)
+    || (location.protocol.indexOf('http')===0 && !isLocal);
+  window.__GATE_LOCKED = false;
+  window.__startIntro = null;
+  if(!enabled) return;
+  var gate=document.getElementById('gate');
+  var input=document.getElementById('gateInput');
+  var btn=document.getElementById('gateBtn');
+  var err=document.getElementById('gateErr');
+  var card=gate.querySelector('.gate-card');
+  var logo=document.querySelector('.gate-logo');
+  var srcImg=document.querySelector('#splash .splash-logo');
+  if(logo && srcImg && srcImg.src){ logo.src=srcImg.src; }else if(logo){ logo.style.display='none'; }
+  var passed=false;
+  try{ passed = localStorage.getItem(OKKEY)==='1'; }catch(e){}
+  function unlock(){
+    passed=true;
+    try{ localStorage.setItem(OKKEY,'1'); }catch(e){}
+    gate.classList.remove('show');
+    document.body.style.overflow='';
+    window.__GATE_LOCKED=false;
+    if(window.__startIntro){ var f=window.__startIntro; window.__startIntro=null; f(); }
+  }
+  if(passed) return; /* 本机已解锁过：直接进入，开场照常播放 */
+  /* 未解锁：先锁屏，开场动画等口令通过后再播 */
+  window.__GATE_LOCKED = true;
+  gate.classList.add('show');
+  document.body.style.overflow='hidden';
+  function submit(){
+    var v=(input.value||'').trim();
+    if(v===GATE_PASS){ err.textContent=''; unlock(); }
+    else{
+      err.textContent = v ? '口令不对哦，再想想～' : '请先输入口令';
+      card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
+      input.select();
+    }
+  }
+  btn.addEventListener('click', submit);
+  input.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); submit(); } });
+})();
+
+/* ---------- 开场弹屏 / 彩蛋：校徽停留后飞回左上角 ---------- */
+(function(){
+  var splash=document.getElementById('splash');
+  if(!splash) return;
+  var inner=splash.querySelector('.splash-inner');
+  var sImg=splash.querySelector('.splash-logo');
+  var hint=splash.querySelector('.splash-hint');
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finished=true, timer=null, egg=false, round=0; /* round: 每次显示自增，让过期清理回调失效 */
+
+  /* 显示弹屏：intro=开场（3.5秒后自动飞回）；egg=彩蛋（不计时，点任意处返回） */
+  function show(mode){
+    round++; /* 新一轮显示：作废上一轮尚未执行的清理回调 */
+    egg = (mode === 'egg');
+    finished = false;
+    clearTimeout(timer);
+    /* 复位上一次飞回动画残留 */
+    if(splash.getAnimations){
+      splash.getAnimations({subtree:true}).forEach(function(a){ a.cancel(); });
+    }
+    splash.style.display='flex';
+    splash.style.opacity='';
+    splash.style.pointerEvents='auto';
+    splash.classList.remove('ready');
+    if(hint) hint.textContent = egg ? '点击任意处返回页面' : '点击任意处可跳过';
+    document.body.style.overflow='hidden';
+    void splash.offsetWidth; /* 强制重排，重新播放入场动画 */
+    function play(){
+      /* 幂等：rAF 与兜底定时器谁先触发都只生效一次 */
+      if(!splash.classList.contains('ready')) splash.classList.add('ready');
+      /* 内联双保险：就算手机内核没跑 CSS 入场动画（省电模式/动画被禁），
+         校徽、校名、副标题也强制可见。动画正常时动画帧会覆盖内联值，入场效果不受影响 */
+      splash.style.opacity='1';
+      inner.style.opacity='1';
+      var parts=splash.querySelectorAll('.splash-logo,.splash-name,.splash-sub,.splash-hint');
+      for(var i=0;i<parts.length;i++){ parts[i].style.opacity='1'; }
+    }
+    if(sImg.complete && sImg.naturalWidth){
+      requestAnimationFrame(function(){ requestAnimationFrame(play); });
+      /* 手机端兜底：部分手机浏览器（微信/QQ内置等）在 display 刚切换后
+         rAF 可能不触发，导致弹屏只有背景、校徽文字全透明。
+         定时器路径不依赖 rAF，强制让内容登场 */
+      setTimeout(play, 300);
+    }else{
+      sImg.addEventListener('load', play, {once:true});
+      sImg.addEventListener('error', play, {once:true});
+      setTimeout(play, 1200);
+    }
+    if(!egg){
+      /* 仅开场 3.5 秒后自动飞回；彩蛋永不计时。
+         回调内再判一次 egg，杜绝任何残留定时器关掉彩蛋 */
+      timer=setTimeout(function(){ if(!egg) end(); }, 3500);
+    }
+  }
+
+  function end(){
+    if(finished) return;
+    finished=true;
+    clearTimeout(timer);
+    var myRound=round;
+    var navImg=document.querySelector('.logo .seal');
+    splash.style.pointerEvents='none';
+    var anims=[], cleaned=false;
+    function cleanup(){
+      /* 已清理过；或弹屏已被重新打开（轮次变了）：旧回调不得关掉新弹屏 */
+      if(cleaned || myRound!==round) return;
+      cleaned=true;
+      /* 引用式取消本轮回飞动画：不依赖 getAnimations，老手机内核也能清干净，
+         不会有透明度残留压住下一次彩蛋 */
+      for(var i=0;i<anims.length;i++){ try{ anims[i].cancel(); }catch(e){} }
+      splash.style.display='none';
+      splash.style.opacity='';
+      document.body.style.overflow='';
+      if(navImg && navImg.animate){
+        navImg.animate([{transform:'scale(1.5)'},{transform:'scale(1)'}],{duration:480,easing:'ease-out'});
+      }
+    }
+    /* 不支持动画或用户开启了“减少动态效果”：直接淡出 */
+    if(reduced || !inner.animate || !navImg){
+      if(splash.animate){
+        var f=splash.animate([{opacity:1},{opacity:0}],{duration:350,easing:'ease'});
+        anims.push(f); f.onfinish=cleanup;
+        setTimeout(cleanup, 500); /* onfinish 兜底 */
+      }else{ cleanup(); }
+      return;
+    }
+    /* 测量：大校徽中心 → 导航校徽中心 */
+    var nr=navImg.getBoundingClientRect();
+    var ir=sImg.getBoundingClientRect();
+    var cr=inner.getBoundingClientRect();
+    var T={x:nr.left+nr.width/2, y:nr.top+nr.height/2};   /* 导航校徽中心 */
+    var I={x:ir.left+ir.width/2, y:ir.top+ir.height/2};   /* 弹屏校徽中心 */
+    var O={x:cr.left+cr.width/2, y:cr.top+cr.height/2};   /* 弹屏整块中心 */
+    var scale=nr.height/ir.height;
+    /* 内块做 scale，校徽中心映射到目标点后整体平移 */
+    var tx = T.x - O.x - scale*(I.x - O.x);
+    var ty = T.y - O.y - scale*(I.y - O.y);
+    /* 不用 fill:forwards：旧手机内核没有 getAnimations 清不掉残留，
+       透明度会一直锁在 0，导致下次彩蛋“只有背景、无图无字” */
+    var fly=inner.animate([
+      {transform:'translate(0,0) scale(1)',  opacity:1, offset:0},
+      {transform:'translate('+tx+'px,'+ty+'px) scale('+scale+')', opacity:1, offset:.72},
+      {transform:'translate('+tx+'px,'+ty+'px) scale('+scale+')', opacity:0, offset:1}
+    ],{duration:950,easing:'cubic-bezier(.55,-0.15,.35,1)'});
+    var fade=splash.animate([
+      {opacity:1},{opacity:1,offset:.58},{opacity:0}
+    ],{duration:980,easing:'ease'});
+    anims.push(fly); anims.push(fade);
+    fly.onfinish=cleanup;
+    setTimeout(cleanup, 1100); /* onfinish 兜底：个别内核不回调时也能收尾 */
+  }
+
+  /* 首次开场：口令门未通过时先等解锁，通过后再播 */
+  if(window.__GATE_LOCKED){
+    window.__startIntro = function(){ show('intro'); };
+  }else{
+    show('intro');
+  }
+  /* 点击弹屏任意处：跳过开场 / 彩蛋返回浏览界面 */
+  splash.addEventListener('click', end);
+
+  /* 彩蛋：点击左上角校徽或校名，重新弹出（一直显示，点任意处返回） */
+  var logo=document.querySelector('.logo');
+  if(logo){
+    logo.style.cursor='pointer';
+    logo.title='点我有惊喜 ✦';
+    function openEgg(e){
+      if(e) e.preventDefault();
+      if(!finished) return; /* 弹屏正在显示时不重复触发 */
+      show('egg');
+    }
+    logo.addEventListener('click', openEgg);
+  }
+})();
+
+/* ---------- 图片：统一使用文生图接口 ---------- */
+function imgUrl(prompt, size){
+  return 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt='
+    + encodeURIComponent(prompt) + '&image_size=' + size;
+}
+/* 图片首次为在线生成，可能较慢；失败后自动重试最多3次，仍失败则保持“师”字占位 */
+function setImgWithRetry(img, url, retries){
+  retries = retries || 0;
+  img.onerror = function(){
+    if(retries < 3){
+      setTimeout(function(){ setImgWithRetry(img, url, retries+1); }, 2500*(retries+1));
+    }
+  };
+  img.src = url;
+}
+/* 智能加载：接口未生成完成时返回固定 1832×1832 的占位图 default.jpeg。
+   检测到占位图则不显示（保留“师”字节日卡片），并自动定时重试，直到正式插画就绪 */
+function smartImgLoad(img, url){
+  var tries = 0;
+  function hideFb(){
+    img.style.opacity = '1';
+    var fb = img.parentNode && img.parentNode.querySelector('.ph-fb');
+    if(fb) fb.style.display = 'none';
+  }
+  function tryLoad(){
+    var probe = new Image();
+    probe.onload = function(){
+      if(probe.naturalWidth === 1832 && probe.naturalHeight === 1832){
+        if(++tries < 12){ setTimeout(tryLoad, 45000); }  /* 仍在生成中，约45秒后重试 */
+      }else{
+        img.onload = hideFb;
+        img.src = url;
+        if(img.complete && img.naturalWidth > 0) hideFb();
+      }
+    };
+    probe.onerror = function(){
+      if(++tries < 12){ setTimeout(tryLoad, 15000); }
+    };
+    probe.src = url;
+  }
+  tryLoad();
+}
+setImgWithRetry(document.getElementById('heroImg'), imgUrl(
+  '教师节主题温暖插画，中国校园里老师与学生们手捧粉色康乃馨鲜花，阳光明媚，手绘水彩风格，暖红色与金色调，喜庆温馨',
+  'landscape_16_9'
+));
+/* ---------- 7位老师数据（姓名 / 学科 / 称号 / 简介 / 配图提示词） ---------- */
+var TEACHERS = [
+  {name:'王雅琴', subject:'语文', title:'高级教师 · 语文教研组长',
+   intro:'她的课堂有诗词里的风花雪月，也有字里行间的人生天地，教学生以文字立心。',
+   prompt:'一位中国女语文教师手捧书本在教室里讲解古诗词，黑板上写着古诗，窗外有竹影，温馨手绘水彩插画风格，暖色调'},
+  {name:'李建国', subject:'数学', title:'高级教师 · 数学教研组长',
+   intro:'一块黑板写满逻辑与热爱，他总说：把复杂讲简单，才是真本事。',
+   prompt:'一位中国男数学教师站在黑板前，黑板上写满数学公式与几何图形，手持圆规，温馨手绘水彩插画风格，暖色调'},
+  {name:'陈晓梅', subject:'英语', title:'一级教师',
+   intro:'笑声朗朗的英语课堂，让每个孩子都敢开口、爱表达，把世界带进教室。',
+   prompt:'一位中国女英语教师在英语课堂上微笑讲课，墙上有英文字母卡片，手持单词卡，温馨手绘水彩插画风格，暖色调'},
+  {name:'刘志远', subject:'物理', title:'高级教师',
+   intro:'三棱镜里折射出彩虹，他用一个个实验告诉学生：物理，是用来理解世界的。',
+   prompt:'一位中国男物理教师在实验室演示三棱镜分光实验，桌上有光学仪器，阳光透过窗户，温馨手绘水彩插画风格，暖色调'},
+  {name:'张丽华', subject:'化学', title:'一级教师',
+   intro:'试管里的奇妙变化是她的魔法，严谨与温柔并存，带学生探索微观世界。',
+   prompt:'一位中国女化学教师在化学实验室指导实验，手持试管，架上有彩色试剂瓶，温馨手绘水彩插画风格，暖色调'},
+  {name:'赵雪莹', subject:'生物', title:'一级教师',
+   intro:'从一片叶脉到一整个春天，她带学生看见生命的秩序与美好。',
+   prompt:'一位中国女生物教师在生物课上讲解植物标本，讲台上有绿植与显微镜，温馨手绘水彩插画风格，暖色调'},
+  {name:'孙文博', subject:'历史', title:'高级教师 · 历史教研组长',
+   intro:'讲台上他谈古论今，让泛黄的岁月变得热血滚烫。',
+   prompt:'一位中国男历史教师在历史课上讲解，身后是中国古代朝代时间轴与历史挂图，温馨手绘水彩插画风格，暖色调'}
+];
+
+/* 渲染教师卡片 */
+(function(){
+  var grid = document.getElementById('teacherGrid');
+  grid.innerHTML = TEACHERS.map(function(t){
+    return '<div class="t-card reveal" data-name="' + t.name + '" data-subject="' + t.subject + '" data-title="' + t.title + '" data-intro="' + t.intro + '">'
+      + '<div class="ph">'
+      +   '<img alt="' + t.name + '老师" data-prompt="' + t.prompt + '">'
+      +   '<div class="ph-fb"><b class="cal">师</b><small>师者如光</small></div>'
+      + '</div>'
+      + '<div class="body">'
+      +   '<div class="t-name"><h4 class="cal">' + t.name + ' 老师</h4>'
+      +   '<span class="subj-badge">' + t.subject + '</span></div>'
+      +   '<div class="t-title">' + t.title + '</div>'
+      +   '<p>' + t.intro + '</p>'
+      + '</div><div class="glare"></div></div>';
+  }).join('');
+  grid.querySelectorAll('img').forEach(function(img){
+    img.style.opacity = '0';
+    smartImgLoad(img, imgUrl(img.dataset.prompt, 'portrait_4_3'));
+  });
+  grid.querySelectorAll('.t-card').forEach(bindTilt);
+})();
+
+/* ---------- 飘落花瓣 ---------- */
+(function(){
+  var box = document.getElementById('petals');
+  var colors = ['#e78ba0','#f2a7b6','#d95d4f','#e8b64c','#efc9d2'];
+  for(var i=0;i<14;i++){
+    var p = document.createElement('div');
+    p.className = 'petal';
+    var size = 9 + Math.random()*12;
+    p.style.left = Math.random()*100 + 'vw';
+    p.style.width = size+'px';
+    p.style.height = size+'px';
+    p.style.background = 'radial-gradient(circle at 30% 30%, #fff0f3,'+ colors[i%colors.length] +')';
+    p.style.setProperty('--drift', (Math.random()*160-80)+'px');
+    p.style.animationDuration = (11+Math.random()*10)+'s';
+    p.style.animationDelay = (-Math.random()*14)+'s';
+    p.style.opacity = 0.3+Math.random()*0.3;
+    box.appendChild(p);
+  }
+})();
+
+/* ---------- 滚动：导航阴影 / 进度条 / 返回顶部进度环 ---------- */
+(function(){
+  var nav = document.getElementById('nav'),
+      bar = document.getElementById('progressBar'),
+      toTop = document.getElementById('toTop'),
+      ring = document.getElementById('topRing'), C = 139;
+  function onScroll(){
+    var max = document.documentElement.scrollHeight - innerHeight;
+    var p = max > 0 ? Math.min(scrollY/max, 1) : 0;
+    nav.classList.toggle('scrolled', scrollY > 30);
+    bar.style.width = (p*100) + '%';
+    toTop.classList.toggle('show', scrollY > 520);
+    ring.style.strokeDashoffset = C*(1-p);
+  }
+  addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  toTop.addEventListener('click', function(){ scrollTo({top:0, behavior:'smooth'}); });
+})();
+
+/* ---------- 倒计时 ---------- */
+(function(){
+  var target = new Date('2026-09-10T00:00:00+08:00').getTime();
+  var d=document.getElementById('cd-d'),h=document.getElementById('cd-h'),
+      m=document.getElementById('cd-m'),s=document.getElementById('cd-s');
+  function pad(n){return n<10?'0'+n:''+n}
+  function tick(){
+    var diff = target - Date.now();
+    if(diff <= 0){
+      d.textContent=h.textContent=m.textContent=s.textContent='00';
+      document.querySelector('.cd-label').textContent='今天就是教师节，祝老师们节日快乐！🎉';
+      return;
+    }
+    d.textContent = Math.floor(diff/86400000);
+    h.textContent = pad(Math.floor(diff%86400000/3600000));
+    m.textContent = pad(Math.floor(diff%3600000/60000));
+    s.textContent = pad(Math.floor(diff%60000/1000));
+  }
+  tick();setInterval(tick,1000);
+})();
+
+/* ---------- 滚动显现 ---------- */
+(function(){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  },{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+})();
+
+/* ---------- 祝福墙 ---------- */
+(function(){
+  var KEY = 'nanwu_teacher_day_blessings_v1';          /* 本机新写的祝福 */
+  var HKEY = 'nanwu_teacher_day_blessings_hidden_v1';  /* 本机删除掉的内置祝福（仅对本机隐藏） */
+  var flowers = ['🌷','🌸','🌺','💐','🌹','🏵️'];
+  /* 内置祝福：直接写在代码里，所有扫码打开的访客都能看到。
+     站长收集到同学们新写的祝福后，往这个数组里加一条即可全站生效 */
+  var seed = [
+    {name:'初三（2）班全体同学', to:'全体任课老师', msg:'谢谢老师们陪我们熬过的每一个晚自习、讲过的每一道题。中考我们一定全力以赴，教师节快乐！'},
+    {name:'高一（5）班 小林', to:'班主任王老师', msg:'粉笔灰染白了您的鬓角，却点亮了我们的前程。老师，您辛苦了，我们爱您！'},
+    {name:'校学生会', to:'全体教职工', msg:'愿每一位老师笑容常伴、身体健康，桃李满天下，春晖遍四方！'},
+    {name:'毕业多年的老校友', to:'南武的恩师们', msg:'走出校园才明白，当年您的唠叨都是最深的牵挂。遥祝恩师们节日快乐，一切安好！'},
+    {name:'初一（1）班 朵朵', to:'语文李老师', msg:'您读课文的声音特别好听，让我爱上了语文。祝您像康乃馨一样美丽！'},
+    {name:'一位家长', to:'南武实验学校全体老师', msg:'把孩子交给你们，我们放心。感谢你们的责任心与爱心，祝老师们节日快乐！'}
+  ];
+  function read(k, fb){
+    try{ var v=JSON.parse(localStorage.getItem(k)); return v==null?fb:v; }
+    catch(e){ return fb; }
+  }
+  function keyOf(b){ return (b.name||'')+'｜'+(b.to||'')+'｜'+(b.msg||''); }
+
+  var local = read(KEY, []);
+  var hidden = read(HKEY, []);
+  var hiddenSet = {};
+  hidden.forEach(function(k){ hiddenSet[k]=1; });
+  /* 清理测试留言：我方测试昵称，以及纯键盘乱码（如 jhjkl、asdf） */
+  local = local.filter(function(b){
+    var n = String(b.name||'').trim();
+    if(n === '测试同学') return false;
+    if(/^[a-z]{2,6}$/i.test(n) && /^[hjkluiopasdfgmn ]+$/i.test(n)) return false;
+    return true;
+  });
+  /* 自愈：旧版本曾把内置祝福存进本机存储，如今它们已写进代码，
+     从本机剔除，避免“删了又复活”和顺序错乱 */
+  var seedSet = {};
+  seed.forEach(function(b){ seedSet[keyOf(b)] = 1; });
+  local = local.filter(function(b){ return !seedSet[keyOf(b)]; });
+  try{ localStorage.setItem(KEY, JSON.stringify(local)); }catch(err){}
+
+  /* 合并列表：本机新写的排前面，代码内置的紧随其后（去重、跳过本机删过的） */
+  var list = [], seen = {};
+  function push(b){ var k=keyOf(b); if(seen[k]||hiddenSet[k]) return; seen[k]=1; list.push(b); }
+  local.forEach(push);
+  seed.forEach(push);
+  var localCount = local.length; /* 渲染列表中前 localCount 条来自本机 */
+
+  function render(){
+    var grid = document.getElementById('wallGrid');
+    grid.innerHTML = list.map(function(b,i){
+      return '<div class="blessing">'
+        + '<button type="button" class="del" title="删除这条祝福" aria-label="删除这条祝福">×</button>'
+        + '<span class="flower">'+flowers[i%flowers.length]+'</span>'
+        + '<div class="msg">'+escapeHtml(b.msg)+(b.to?'<br><small style="color:#b8352e">—— 致 '+escapeHtml(b.to)+'</small>':'')+'</div>'
+        + '<div class="who">— '+escapeHtml(b.name)+'</div>'
+        + '</div>';
+    }).join('');
+  }
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g,function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  render();
+  /* 删除单条祝福：本机写的直接删除；内置的仅在本机隐藏，其他访客不受影响 */
+  document.getElementById('wallGrid').addEventListener('click', function(e){
+    var btn = e.target.closest('.del');
+    if(!btn) return;
+    var card = btn.closest('.blessing');
+    var idx = Array.prototype.indexOf.call(this.children, card);
+    if(idx < 0) return;
+    if(idx < localCount){
+      local.splice(idx,1); localCount--;
+      try{ localStorage.setItem(KEY, JSON.stringify(local)); }catch(err){}
+    }else{
+      var k = keyOf(list[idx]);
+      hiddenSet[k]=1; hidden.push(k);
+      try{ localStorage.setItem(HKEY, JSON.stringify(hidden)); }catch(err){}
+    }
+    list.splice(idx,1);
+    render();
+  });
+  document.getElementById('blessingForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('bName').value.trim();
+    var to = document.getElementById('bTo').value.trim();
+    var msg = document.getElementById('bMsg').value.trim();
+    if(!name || !msg) return;
+    var b = {name:name, to:to, msg:msg};
+    local.unshift(b); localCount++;
+    try{ localStorage.setItem(KEY, JSON.stringify(local)); }catch(err){}
+    list.unshift(b);
+    render();
+    e.target.reset();
+    var first = document.querySelector('.blessing');
+    if(first) first.scrollIntoView({behavior:'smooth', block:'center'});
+  });
+  /* 站长工具：一键导出本机全部祝福，微信发给站长即可收录进代码、全站可见 */
+  var exp = document.getElementById('exportBlessings');
+  if(exp){
+    exp.addEventListener('click', function(){
+      var txt = '';
+      try{ txt = JSON.stringify(list); }catch(err){ return; }
+      function ok(){
+        var t = exp.textContent;
+        exp.textContent = '已复制 ✓ 现在去微信发给站长';
+        setTimeout(function(){ exp.textContent = t; }, 2500);
+      }
+      function fallback(){
+        var w = prompt('长按全选复制下面文字，微信发给站长（唐岗睿），收录后所有人都能看到：', txt);
+        if(w !== null) ok();
+      }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(txt).then(ok, fallback);
+      }else{ fallback(); }
+    });
+  }
+})();
+
+/* ---------- 打字机祝福语 ---------- */
+(function(){
+  var el = document.getElementById('typeText');
+  if(!el) return;
+  var P = ['大力弘扬教育家精神，争做新时代大先生。','心有大我，至诚报国。','乐教爱生，甘于奉献。','三尺讲台，一生热爱。','师者如光，微以致远。','桃李不言，下自成蹊。'];
+  var pi = 0, ci = 0, del = false;
+  function step(){
+    var s = P[pi];
+    if(!del){
+      el.textContent = s.slice(0, ++ci);
+      if(ci === s.length){ del = true; return setTimeout(step, 1900); }
+      return setTimeout(step, 130);
+    }
+    el.textContent = s.slice(0, --ci);
+    if(ci === 0){ del = false; pi = (pi+1)%P.length; return setTimeout(step, 420); }
+    setTimeout(step, 40);
+  }
+  step();
+})();
+
+/* ---------- Hero 金色光尘粒子 ---------- */
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var cv = document.getElementById('dust');
+  if(!cv) return;
+  var ctx = cv.getContext('2d'), W, H,
+      dpr = Math.min(devicePixelRatio||1, 2), P = [];
+  function size(){
+    W = cv.width = cv.clientWidth * dpr;
+    H = cv.height = cv.clientHeight * dpr;
+  }
+  size();
+  addEventListener('resize', size);
+  function newP(init){
+    return { x:Math.random()*W, y:init?Math.random()*H:H+12*dpr,
+      r:(Math.random()*1.9+0.6)*dpr,
+      vy:-(Math.random()*0.4+0.12)*dpr, vx:(Math.random()-0.5)*0.3*dpr,
+      a:Math.random()*0.5+0.25, ph:Math.random()*Math.PI*2,
+      sp:Math.random()*0.02+0.008, glow:Math.random()<0.28 };
+  }
+  var N = Math.min(46, Math.floor(innerWidth/28));
+  for(var i=0;i<N;i++) P.push(newP(true));
+  (function tick(){
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<P.length;i++){
+      var p = P[i];
+      p.y += p.vy; p.x += p.vx + Math.sin(p.ph)*0.18*dpr; p.ph += p.sp;
+      if(p.y < -14*dpr){ P[i] = newP(false); continue; }
+      var tw = 0.55 + 0.45*Math.sin(p.ph*3.1);
+      ctx.beginPath();
+      ctx.shadowBlur = p.glow ? 14*dpr : 0;
+      ctx.shadowColor = 'rgba(217,93,79,.75)';
+      ctx.fillStyle = 'rgba(231,139,160,' + (p.a*tw).toFixed(3) + ')';
+      ctx.arc(p.x, p.y, p.r, 0, 6.2832);
+      ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+    requestAnimationFrame(tick);
+  })();
+})();
+
+/* ---------- 数字滚动 ---------- */
+(function(){
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      if(!en.isIntersecting) return;
+      io.unobserve(en.target);
+      var el = en.target, t = +el.dataset.target, suf = el.dataset.suffix || '', st = null;
+      (function f(ts){
+        if(!st) st = ts;
+        var p = Math.min((ts - st)/1700, 1);
+        p = 1 - Math.pow(1-p, 3);
+        el.textContent = Math.round(t*p) + suf;
+        if(p < 1) requestAnimationFrame(f);
+      })(performance.now());
+    });
+  }, {threshold:.5});
+  document.querySelectorAll('.stat .num').forEach(function(n){ io.observe(n); });
+})();
+
+/* ---------- 教师卡片 3D 倾斜 + 辉光跟随 ---------- */
+function bindTilt(card){
+  if(matchMedia('(pointer:coarse)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  card.addEventListener('mousemove', function(e){
+    var r = card.getBoundingClientRect();
+    var x = (e.clientX - r.left)/r.width, y = (e.clientY - r.top)/r.height;
+    card.style.transform = 'perspective(1100px) rotateX(' + ((0.5-y)*3.6).toFixed(2)
+      + 'deg) rotateY(' + ((x-0.5)*4.8).toFixed(2) + 'deg) translateY(-4px)';
+    card.style.setProperty('--gx', (x*100).toFixed(1) + '%');
+    card.style.setProperty('--gy', (y*100).toFixed(1) + '%');
+  });
+  card.addEventListener('mouseleave', function(){ card.style.transform = ''; });
+}
+
+/* ---------- 鼠标流光（仅电脑端鼠标；移动端/发生真实触摸后永久关闭） ---------- */
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var g = document.getElementById('glow');
+  if(!g) return;
+  /* 纯触摸设备（手机/平板）：直接不启用 */
+  if(matchMedia('(pointer:coarse)').matches){
+    g.style.display = 'none';
+    return;
+  }
+  var touched = false;
+  /* 一旦发生真实触摸（手机滑动/点击，或触屏电脑用手操作）：永久关闭光圈 */
+  addEventListener('touchstart', function(){
+    if(touched) return;
+    touched = true;
+    g.style.display = 'none';
+    g.style.opacity = '0';
+  }, {passive:true});
+  var x = innerWidth/2, y = innerHeight/2, tx = x, ty = y;
+  addEventListener('mousemove', function(e){
+    if(touched) return;                       /* 触摸过就不再响应 */
+    if(e.pointerType === 'touch') return;     /* 触摸合成的鼠标事件：忽略 */
+    tx = e.clientX; ty = e.clientY;
+    if(g.style.opacity !== '1') g.style.opacity = '1';
+  });
+  document.documentElement.addEventListener('mouseleave', function(){
+    if(!touched) g.style.opacity = '0';
+  });
+  (function loop(){
+    x += (tx-x)*0.075; y += (ty-y)*0.075;
+    g.style.transform = 'translate(' + (x-190) + 'px,' + (y-190) + 'px)';
+    requestAnimationFrame(loop);
+  })();
+})();
+
+/* ---------- 导航高亮（Scrollspy） ---------- */
+(function(){
+  var links = document.querySelectorAll('.nav-links a'), map = {};
+  links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      if(en.isIntersecting && map[en.target.id]){
+        links.forEach(function(a){ a.classList.remove('active'); });
+        map[en.target.id].classList.add('active');
+      }
+    });
+  }, {rootMargin:'-30% 0px -60% 0px'});
+  ['message','spirit','quotes','teachers','wall'].forEach(function(id){
+    var s = document.getElementById(id);
+    if(s) io.observe(s);
+  });
+})();
+
+/* ---------- 教师大图 Lightbox ---------- */
+(function(){
+  var lb = document.getElementById('lightbox');
+  if(!lb) return;
+  var im = lb.querySelector('img'),
+      nm = lb.querySelector('.lb-name'),
+      sb = lb.querySelector('.lb-sub'),
+      it = lb.querySelector('.lb-intro');
+  function open(card){
+    var img = card.querySelector('img');
+    if(!img || !img.src || img.style.display === 'none' || !img.naturalWidth) return;
+    im.src = img.src;
+    nm.textContent = card.dataset.name + ' 老师';
+    sb.textContent = card.dataset.subject + ' · ' + card.dataset.title;
+    it.textContent = card.dataset.intro;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function close(){
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('teacherGrid').addEventListener('click', function(e){
+    var c = e.target.closest('.t-card');
+    if(c) open(c);
+  });
+  lb.addEventListener('click', function(){
+    close();  /* 无关闭按钮：点击大图/文字/遮罩任意处即关闭 */
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') close();
+  });
+})();
+
+/* ---------- 点击/触摸 · 落花迸发 ---------- */
+(function(){
+  var colors = ['#e78ba0','#f2a7b6','#d95d4f','#e8b64c','#efc9d2','#f7c8c0'];
+  var MAX = 90; /* 同时存在的花瓣上限，防止滑动过多卡顿 */
+  function burst(x, y, n, power){
+    var alive = document.querySelectorAll('.burst-petal').length;
+    for(var i=0;i<n;i++){
+      if(alive + i >= MAX) break;
+      var el = document.createElement('span');
+      el.className = 'burst-petal';
+      var size = 7 + Math.random()*9;
+      el.style.width = size+'px';
+      el.style.height = size+'px';
+      el.style.left = (x - size/2)+'px';
+      el.style.top = (y - size/2)+'px';
+      el.style.background = 'radial-gradient(circle at 32% 28%, #fff2f5,'+ colors[(Math.random()*colors.length)|0] +')';
+      document.body.appendChild(el);
+      if(!el.animate){ setTimeout(function(el){ el.remove(); }, 1200, el); continue; }
+      var ang = Math.random()*Math.PI*2;
+      var dist = power*(0.45+Math.random()*0.75);
+      var dx = Math.cos(ang)*dist;
+      var dyUp = Math.sin(ang)*dist - power*0.55;   /* 先向上扬 */
+      var dyEnd = dyUp + dist*0.9 + 70;            /* 再飘落（重力） */
+      var rot = (Math.random()*720 - 360);
+      var anim = el.animate([
+        {transform:'translate(0,0) rotate(0deg) scale(.5)',opacity:.95},
+        {transform:'translate('+(dx*0.55)+'px,'+(dyUp*0.7)+'px) rotate('+(rot*0.5)+'deg) scale(1)',opacity:1,offset:.45},
+        {transform:'translate('+dx+'px,'+dyEnd+'px) rotate('+rot+'deg) scale(.85)',opacity:0}
+      ],{duration:850+Math.random()*750,easing:'cubic-bezier(.15,.6,.3,1)',fill:'forwards'});
+      anim.onfinish = function(){ el.remove(); };
+    }
+  }
+  /* 手机/平板：触摸即落花；滑动时沿指尖轨迹持续落花（passive 不影响滚动/点击） */
+  var lastTouch = 0, trailT = 0, tx = -999, ty = -999;
+  window.addEventListener('touchstart', function(e){
+    lastTouch = Date.now();
+    var t = e.touches[0];
+    if(t) burst(t.clientX, t.clientY, 5, 64);
+  }, {passive:true});
+  window.addEventListener('touchmove', function(e){
+    var t = e.touches[0];
+    if(!t) return;
+    var now = Date.now();
+    var dx = t.clientX - tx, dy = t.clientY - ty;
+    if(now - trailT < 110 && dx*dx + dy*dy < 36*36) return; /* 时间+距离节流 */
+    trailT = now; tx = t.clientX; ty = t.clientY;
+    burst(t.clientX, t.clientY, 2, 38);
+  }, {passive:true});
+  /* 电脑：鼠标左键点击落花；触摸后浏览器会合成 mousedown，用时间锁去重 */
+  window.addEventListener('mousedown', function(e){
+    if(e.button !== 0) return;
+    if(Date.now() - lastTouch < 650) return;
+    burst(e.clientX, e.clientY, 7, 92);
+  }, {passive:true});
+})();
+</script>
+</body>
+</html>
